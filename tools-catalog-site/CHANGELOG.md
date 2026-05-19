@@ -2,6 +2,12 @@
 
 All notable changes to the EM Segmentation Tools Open Catalog will be documented in this file. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] — 2026-05-19
+
+### Added
+
+- **arivis Pro** (ZEISS) and **Dragonfly** (Comet / Object Research Systems) added under General-purpose → Commercial platforms. Both are widely used vendor GUI platforms for volume-EM segmentation and quantification; included alongside Amira for parity in coverage of commercial tooling.
+
 ## [1.0.0] — 2026-05-19
 
 Initial public release. Companion to *Kiewisz, R. (2026), Segmentation in Electron Microscopy: A Tools Overview*, Methods in Cell Biology.

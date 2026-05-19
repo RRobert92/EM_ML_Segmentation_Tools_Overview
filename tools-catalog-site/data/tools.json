@@ -1,8 +1,8 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "generated": "2026-05-19",
   "license": "CC-BY-4.0",
-  "tool_count": 82,
+  "tool_count": 84,
   "tools": [
     {
       "name": "3DCT",
@@ -2892,6 +2892,93 @@
       "task": "Pretraining datasets",
       "availability": "Open",
       "pretrained_weights": "n/a"
+    },
+    {
+      "name": "arivis Pro",
+      "raw_name": "arivis Pro (ZEISS arivis Pro; formerly arivis Vision4D)",
+      "aliases": [
+        "arivis",
+        "arivis Vision4D",
+        "ZEISS arivis Pro",
+        "arivis Cloud (formerly APEER)"
+      ],
+      "category": "General-purpose",
+      "task": "Commercial platforms",
+      "modalities": [
+        "fib-sem",
+        "sbem",
+        "sstem",
+        "array-tomo",
+        "sem",
+        "clem",
+        "vem",
+        "lm"
+      ],
+      "type": "hybrid",
+      "approach": "Commercial GUI-driven platform for 3D/4D bioimage analysis aimed at multi-terabyte volumes. Combines classical segmentation primitives (thresholding, watershed, region growing, manual painting) with a shallow ML pixel classifier and a deep-learning trainer for semantic and instance segmentation. The companion cloud product (arivis Cloud, formerly APEER) provides browser-based deep-learning training and model sharing. Now part of the ZEISS microscopy software ecosystem following the 2023 acquisition.",
+      "architecture": "Platform — multiple algorithms; deep-learning trainer wraps U-Net-style architectures for 2D/3D semantic and instance segmentation, with a separate shallow pixel-classifier (random-forest-style) for fast interactive work.",
+      "training_paradigm": "supervised (for the deep-learning trainer); user provides sparse annotations and trains locally or in arivis Cloud. Pretrained model marketplace available through arivis Cloud / APEER.",
+      "training_data": "User-supplied annotations created inside the segmentation workflow; arivis Cloud also hosts shared community models. No published canonical training set.",
+      "when_to_use": "When a volumetric EM or correlative LM-EM workflow needs interactive segmentation, object tracking and lineage analysis combined with large-data streaming on a single workstation, especially in ZEISS-microscope-equipped labs.",
+      "limitations": "Closed-source and license-gated. Deep-learning trainer is convenient but lags purpose-built open-source segmentation tools (nnU-Net, MitoNet) by a release cycle. No peer-reviewed methods paper — cite the vendor page and pair with an open-source comparator when describing methodology.",
+      "compute": "Workstation-class CPU + mid-to-high-end GPU recommended for the deep-learning trainer; cloud training via arivis Cloud is an alternative for users without local GPU. Designed to stream TB-scale volumes from disk on a single workstation.",
+      "citation": {
+        "first_author": "",
+        "surname": "",
+        "year": null,
+        "venue": "",
+        "doi": "",
+        "url": "https://www.zeiss.com/microscopy/en/products/software/arivis-pro.html",
+        "short": "—"
+      },
+      "repo": "",
+      "availability": "Vendor",
+      "source_type": "vendor",
+      "pretrained_weights": "yes",
+      "verification_notes": "Vendor software with no canonical peer-reviewed methods paper. Cite via the ZEISS product page (https://www.zeiss.com/microscopy/en/products/software/arivis-pro.html). Historical lineage: arivis AG (Rostock/Munich) → acquired by ZEISS in 2023; arivis Vision4D rebranded as arivis Pro; APEER rebranded as arivis Cloud."
+    },
+    {
+      "name": "Dragonfly",
+      "raw_name": "Dragonfly (Comet / Object Research Systems)",
+      "aliases": [
+        "Dragonfly 3D World",
+        "ORS Dragonfly",
+        "Comet Dragonfly",
+        "Dragonfly Pro"
+      ],
+      "category": "General-purpose",
+      "task": "Commercial platforms",
+      "modalities": [
+        "fib-sem",
+        "sbem",
+        "sstem",
+        "array-tomo",
+        "sem",
+        "clem",
+        "vem"
+      ],
+      "type": "hybrid",
+      "approach": "Commercial GUI-driven 3D image analysis and visualisation platform widely used in volume EM, FIB-SEM, micro-CT and materials science. Combines classical segmentation (thresholding, watershed, region growing, manual painting) with a Deep Learning Tool that exposes U-Net, ResNet and Sensor3D-style architectures through a Segmentation Wizard. Strong large-volume rendering and meshing, with a Python scripting layer for batch processing.",
+      "architecture": "Platform — multiple algorithms; deep-learning module wraps U-Net, ResNet, Sensor3D and other CNN architectures for 2D/2.5D/3D semantic segmentation; classical filters and shallow ML available alongside.",
+      "training_paradigm": "supervised (for the Deep Learning Tool); user provides sparse or dense annotations and trains models inside the GUI or via the Python console. Some pretrained 'application packs' (mitochondria, nuclei, fibres) are distributed by the vendor and community.",
+      "training_data": "User-supplied annotations within the Segmentation Wizard; community-shared model packs distributed via ORS / Comet. No published canonical training set.",
+      "when_to_use": "When a volume-EM lab needs interactive 3D segmentation, quantitative analysis and publication-quality rendering on a single workstation, especially for FIB-SEM, SBEM or correlative micro-CT / vEM workflows.",
+      "limitations": "Closed-source and license-gated; the previously free academic version was discontinued by Comet in 2024–2025 in favour of a tiered commercial product line. Deep-learning module lags purpose-built open-source segmentation tools (nnU-Net, MitoNet, MemBrain-seg) by a release cycle. No peer-reviewed methods paper — cite the vendor page or pair with an open-source comparator.",
+      "compute": "Workstation-class CPU + mid-to-high-end GPU recommended for the Deep Learning Tool; multi-GPU training supported in recent releases. Routinely runs on a single workstation rather than a cluster.",
+      "citation": {
+        "first_author": "",
+        "surname": "",
+        "year": null,
+        "venue": "",
+        "doi": "",
+        "url": "https://www.theobjects.com/dragonfly/",
+        "short": "—"
+      },
+      "repo": "",
+      "availability": "Vendor",
+      "source_type": "vendor",
+      "pretrained_weights": "yes",
+      "verification_notes": "Vendor software with no canonical peer-reviewed methods paper. Cite via the Comet / ORS product page (https://www.theobjects.com/dragonfly/). Historical lineage: Object Research Systems (ORS, Montreal) → acquired by Comet Group → currently distributed as Dragonfly / Dragonfly Pro. Confirm current product name and licensing tier before chapter submission."
     }
   ]
 }

@@ -10,7 +10,7 @@ An open, community-maintained catalog of AI/ML and classical tools for **segment
 
 ## What this is
 
-A searchable catalog of 79 actively maintained tools (and growing), each annotated with the segmentation task it addresses, the imaging modalities it supports, its computational approach (ML / classical / hybrid), when it is the appropriate choice, its availability, and its primary citation.
+A searchable catalog of 84 actively maintained tools (and growing), each annotated with the segmentation task it addresses, the imaging modalities it supports, its computational approach (ML / classical / hybrid), when it is the appropriate choice, its availability, and its primary citation.
 
 The catalog is intended as:
 
