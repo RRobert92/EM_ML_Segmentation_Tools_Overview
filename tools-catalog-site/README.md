@@ -37,32 +37,38 @@ jq '.tools[] | select(.category == "Cryo-ET segmentation" and .type == "ml" and 
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). In short: edit `data/tools.json`, open a pull request, and we will review.
 
-## Repository structure
+## Repository layout
+
+The site lives inside a subdirectory of the wider book-chapter repository. The GitHub Actions workflows are at the *repository root* and target the site subdirectory; everything below this point is relative to the repository root:
 
 ```
-em-segmentation-tools/
-├── index.html               # Interactive site (GitHub Pages root)
-├── assets/
-│   ├── style.css            # Site styling
-│   └── script.js            # Search, filter, sort, modal logic
-├── data/
-│   └── tools.json           # Single consolidated catalog (CC-BY-4.0)
+em-segmentation-tools/                  ← repository root
 ├── .github/workflows/
-│   ├── deploy.yml           # Deploys to GitHub Pages on push to main
-│   └── validate.yml         # Validates JSON/JS/HTML on every PR
-├── CONTRIBUTING.md          # How to submit new tools or corrections
-├── CHANGELOG.md             # Release notes
-├── LICENSE                  # MIT for code, CC-BY-4.0 for data
-├── serve-locally.sh         # `./serve-locally.sh` to preview before pushing
-└── README.md                # This file
+│   ├── deploy.yml                      # Deploys tools-catalog-site/ to GitHub Pages
+│   └── validate.yml                    # Validates JSON/JS/HTML on every PR
+├── tools-catalog-site/                 ← THIS DIRECTORY (the deployed site)
+│   ├── index.html
+│   ├── assets/
+│   │   ├── style.css
+│   │   └── script.js
+│   ├── data/
+│   │   └── tools.json                  # Single consolidated catalog (CC-BY-4.0)
+│   ├── CONTRIBUTING.md                 # How to submit new tools or corrections
+│   ├── CHANGELOG.md                    # Release notes
+│   ├── LICENSE                         # MIT for code, CC-BY-4.0 for data
+│   ├── serve-locally.sh                # Preview script (./serve-locally.sh)
+│   └── README.md                       # This file
+└── (chapter materials and other repo content)
 ```
+
+If you ever want the site as a standalone repository, copy the contents of `tools-catalog-site/` to a new repo root and move the workflows from `../.github/workflows/` into `./.github/workflows/`, removing the `tools-catalog-site/` prefix in the workflow file paths.
 
 ## Deployment
 
-The site is deployed via GitHub Actions (`.github/workflows/deploy.yml`). On every push to `main`, the workflow:
+The site is deployed via GitHub Actions (`.github/workflows/deploy.yml`, at the repository root). On every push to `main` that touches `tools-catalog-site/` (or the deploy workflow itself), the workflow:
 
-1. Validates `data/tools.json` (declared `tool_count` matches the array length; fail-fast if broken).
-2. Packages the repository root as a Pages artifact.
+1. Validates `tools-catalog-site/data/tools.json` (declared `tool_count` matches the array length; fail-fast if broken).
+2. Packages the `tools-catalog-site/` subdirectory as a Pages artifact — chapter drafts, knowledge-base sources, and figures elsewhere in the repo are not part of the published site.
 3. Deploys to GitHub Pages via the official `actions/deploy-pages` action.
 
 To enable the workflow on a fresh repository:
@@ -71,7 +77,7 @@ To enable the workflow on a fresh repository:
 - Push to `main` (or trigger manually from the **Actions** tab → *Deploy to GitHub Pages* → *Run workflow*).
 - The first successful run gives you the live URL (also shown in the *Environments* sidebar as `github-pages`).
 
-A second workflow (`.github/workflows/validate.yml`) runs on every PR that touches `data/tools.json`, the site code, or the workflows themselves. It checks the JSON schema (required fields per tool, no duplicate names, allowed values for `type` and `availability`), parses the JS, and parses the HTML. PRs that fail validation are blocked until the contributor fixes them, which keeps the catalog clean without requiring manual review of every typo.
+A second workflow (`.github/workflows/validate.yml`) runs on every PR that touches `tools-catalog-site/data/tools.json`, the site code, or the workflows themselves. It checks the JSON schema (required fields per tool, no duplicate names, allowed values for `type` and `availability`), parses the JS, and parses the HTML. PRs that fail validation are blocked until the contributor fixes them, which keeps the catalog clean without requiring manual review of every typo.
 
 ## How the catalog was assembled
 
