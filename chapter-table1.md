@@ -49,27 +49,27 @@
 
 ### §1.1 SPA particle picking (in 2D micrographs)
 
-| Tool | Modality | Approach | When to use | Availability | Citation |
-|---|---|---|---|---|---|
-| CASSPER | SPA | ML | When ice/contamination masking is itself useful (downstream quality filtering). | Open | George 2021 |
-| Cryo-EMMAE | SPA | ML | When you have novel specimens with no labels; reported to converge with as few as 5 micrographs. | Open | Cuevas-Saavedra 2025 |
-| crYOLO | SPA | ML | First-line SPA picker on commodity GPU; general model means no training in many cases. Filament picking supported via dedicated mode. | Open | Wagner 2019 |
-| CryoSegNet | SPA | ML | When seeking SAM-augmented picking; reported 7% / 14% resolution improvement over Topaz / crYOLO on Cheng-lab tests. | Open | Gyawali 2024 |
-| CryoTransformer | SPA | ML | When a transformer-class model with large pretraining (CryoPPP) is desired; reported FSC improvements over crYOLO/Topaz on Cheng-lab benchmark. | Open | Dhakal 2024 |
-| DeepCryoPicker | SPA | ML | Historical entry; minimally maintained. | Open | Al-Azzawi 2020 |
-| DeepPicker | SPA | ML | Historical baseline; rarely first choice today. | Open | Wang 2016 |
-| DRPnet | SPA | ML | Heatmap-based picking when regression-style outputs are preferred. | Open | Nguyen 2021 |
-| EMAN2 NN-picker | cryo-ET, SPA | ML | If already in EMAN2 workflow and want interactive training. | Open | Bell 2018 |
-| EPicker | SPA | ML | When picking diverse object types (particles, vesicles, fibers) with a single accumulating model. | Open | Zhang 2022 |
-| PIXER | SPA | ML | Historical baseline showing semantic-segmentation framing predates CASSPER. | Open | Zhang 2019 |
-| REPIC | SPA | ML | When you have run multiple pickers and want a principled consensus rather than majority vote. | Open | Cameron 2024 |
-| Topaz | SPA | ML | When you have sparse labels and want a picker that explicitly handles partial annotation noise; small/non-globular particles where bounding boxes f... | Open | Bepler 2019 |
-| UPicker | SPA | ML | When labelled data is scarce and large pools of unlabelled micrographs exist. | Open | Wang 2024 |
-| Warp / BoxNet | cryo-ET, SPA | ML | Real-time on-the-fly picking integrated with motion correction and CTF; in the cryo-ET version, BoxNet variants apply to 2D projections. | Open | Tegunov 2019 |
-| APPLE-picker | SPA | Classical | When you want a no-training picker with predictable behavior; baseline for SPA picking comparison. | Open | Heimowitz 2018 |
-| cisTEM 2DTM | SPA, cryo-ET | Classical | The modern reference for 2D template matching at high resolution. Use when you have an atomic model of the target and want statistically rigorous d... | Open | Lucas 2021 |
-| Gautomatch | SPA | Classical | When templates available and GPU CC desired; long the default first-pass picker before crYOLO/Topaz era. | Open | Zhang, citation unverified |
-| Reference-based auto-picking (RELION / cryoSPARC) | SPA | Classical | Use when a high-quality 2D class average from the same or a closely related sample is already available — for example, when re-picking a known stru... | Open | Scheres 2015 |
+    | Tool | Modality | Approach | When to use | Availability | Citation |
+    |---|---|---|---|---|---|
+    | CASSPER | SPA | ML | When ice/contamination masking is itself useful (downstream quality filtering). | Open | George 2021 |
+    | Cryo-EMMAE | SPA | ML | When you have novel specimens with no labels; reported to converge with as few as 5 micrographs. | Open | Cuevas-Saavedra 2025 |
+    | crYOLO | SPA | ML | First-line SPA picker on commodity GPU; general model means no training in many cases. Filament picking supported via dedicated mode. | Open | Wagner 2019 |
+    | CryoSegNet | SPA | ML | When seeking SAM-augmented picking; reported 7% / 14% resolution improvement over Topaz / crYOLO on Cheng-lab tests. | Open | Gyawali 2024 |
+    | CryoTransformer | SPA | ML | When a transformer-class model with large pretraining (CryoPPP) is desired; reported FSC improvements over crYOLO/Topaz on Cheng-lab benchmark. | Open | Dhakal 2024 |
+    | DeepCryoPicker | SPA | ML | Historical entry; minimally maintained. | Open | Al-Azzawi 2020 |
+    | DeepPicker | SPA | ML | Historical baseline; rarely first choice today. | Open | Wang 2016 |
+    | DRPnet | SPA | ML | Heatmap-based picking when regression-style outputs are preferred. | Open | Nguyen 2021 |
+    | EMAN2 NN-picker | cryo-ET, SPA | ML | If already in EMAN2 workflow and want interactive training. | Open | Bell 2018 |
+    | EPicker | SPA | ML | When picking diverse object types (particles, vesicles, fibers) with a single accumulating model. | Open | Zhang 2022 |
+    | PIXER | SPA | ML | Historical baseline showing semantic-segmentation framing predates CASSPER. | Open | Zhang 2019 |
+    | REPIC | SPA | ML | When you have run multiple pickers and want a principled consensus rather than majority vote. | Open | Cameron 2024 |
+    | Topaz | SPA | ML | When you have sparse labels and want a picker that explicitly handles partial annotation noise; small/non-globular particles where bounding boxes f... | Open | Bepler 2019 |
+    | UPicker | SPA | ML | When labelled data is scarce and large pools of unlabelled micrographs exist. | Open | Wang 2024 |
+    | Warp / BoxNet | cryo-ET, SPA | ML | Real-time on-the-fly picking integrated with motion correction and CTF; in the cryo-ET version, BoxNet variants apply to 2D projections. | Open | Tegunov 2019 |
+    | APPLE-picker | SPA | Classical | When you want a no-training picker with predictable behavior; baseline for SPA picking comparison. | Open | Heimowitz 2018 |
+    | cisTEM 2DTM | SPA, cryo-ET | Classical | The modern reference for 2D template matching at high resolution. Use when you have an atomic model of the target and want statistically rigorous d... | Open | Lucas 2021 |
+    | Gautomatch | SPA | Classical | When templates available and GPU CC desired; long the default first-pass picker before crYOLO/Topaz era. | Open | Zhang, citation unverified |
+    | Reference-based auto-picking (RELION / cryoSPARC) | SPA | Classical | Use when a high-quality 2D class average from the same or a closely related sample is already available — for example, when re-picking a known stru... | Open | Scheres 2015 |
 
 ### §1.2 Cryo-ET macromolecule localization (in 3D tomograms)
 
@@ -149,7 +149,7 @@
 
 | Tool | Modality | Approach | When to use | Availability | Citation |
 |---|---|---|---|---|---|
-| Amira | SBEM, FIB-SEM, ssTEM, array tomo, SEM, CLEM, vEM, LM | Hybrid | Standard choice in many vEM and biomedical-imaging labs for interactive segmentation, quantitative 3D analysis, and publication-quality visualizati... | Vendor | vendor; no peer-reviewed paper |
+| Amira |    | Hybrid | Standard choice in many vEM and biomedical-imaging labs for interactive segmentation, quantitative 3D analysis, and publication-quality visualizati... | Vendor | vendor; no peer-reviewed paper |
 
 ## §5 CLEM registration
 
