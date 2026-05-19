@@ -102,7 +102,7 @@
 | Tool | Modality | Approach | When to use | Availability | Citation |
 |---|---|---|---|---|---|
 | CryoVesNet | cryo-ET | ML | Quantitative analysis of synaptic vesicle pools, vesicle-membrane interactions; baseline for any round membrane-bound organelle in cryo-ET. | Open | Khosrozadeh 2025 |
-| TARDIS-EM | cryo-ET, SPA, STA | ML | Best when the chapter needs to discuss automated segmentation of filaments (microtubules in particular) and membranes in cellular cryo-ET tomograms... | Open | Kiewisz 2024 |
+| TARDIS-EM | cryo-ET, EM, ssTEM, vEM, LM | ML | Best when the chapter needs to discuss automated segmentation of filaments (microtubules in particular) and membranes in cellular cryo-ET tomograms... | Open | Kiewisz 2024 |
 
 ## §3 Volume EM segmentation — labelling features inside vEM volumes
 
