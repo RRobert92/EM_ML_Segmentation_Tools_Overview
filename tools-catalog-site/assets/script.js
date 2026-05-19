@@ -87,7 +87,7 @@
     var map = {
       ml: "ML", classical: "Classical", hybrid: "Hybrid", infrastructure: "Infrastructure",
       spa: "SPA", "cryo-et": "cryo-ET", "fib-sem": "FIB-SEM", sbem: "SBEM", sstem: "ssTEM",
-      vem: "vEM", clem: "CLEM", "cryo-clem": "cryo-CLEM", "cryo-fib": "cryo-FIB",
+      vem: "vEM", em: "EM", clem: "CLEM", "cryo-clem": "cryo-CLEM", "cryo-fib": "cryo-FIB",
       "array-tomo": "array tomo", sem: "SEM", sta: "STA", ilm: "iFLM", lm: "LM",
       "all microscopy": "all microscopy", "cross-cutting": "cross-cutting"
     };

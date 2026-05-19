@@ -287,8 +287,10 @@
       "task": "Filaments, vesicles, features",
       "modalities": [
         "cryo-et",
-        "spa",
-        "sta"
+        "em",
+        "sstem",
+        "vem",
+        "lm"
       ],
       "type": "ml",
       "approach": "Two-stage instance segmentation: a transformer-based deep-learning module produces semantic segmentation of filaments and membranes; a downstream geometric model resolves individual instances. Designed to operate dimensionlessly on both 2D micrographs and 3D tomograms.",

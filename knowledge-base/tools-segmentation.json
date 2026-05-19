@@ -2259,8 +2259,10 @@
       "type": "ml",
       "modalities": [
         "cryo-et",
-        "spa",
-        "sta"
+        "em",
+        "sstem",
+        "vem",
+        "lm"
       ],
       "stage": "segmentation",
       "subtask": "filament-membrane-segmentation",
