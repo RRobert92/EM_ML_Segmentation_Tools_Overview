@@ -1,6 +1,6 @@
 # EM Tools Landscape — Knowledge Base Overview
 
-*Generated: 2026-05-18. Total tools cataloged: **216**.*
+*Generated: 2026-05-18. Last updated: 2026-05-19. Total tools cataloged: **218**.*
 
 This is the human-readable index over the structured tool catalog assembled for the *Correlative Light and Electron Microscopy VI* book chapter on AI/ML tools across the EM pipeline. Each tool has a full structured entry in the corresponding stage JSON. This document is a tour of what's in the catalog; consult the JSON for the per-tool fields (architecture, training paradigm, training data, citation, repo, when-to-use, limitations, etc.).
 
@@ -10,7 +10,7 @@ This is the human-readable index over the structured tool catalog assembled for 
 |---|---|
 | `tools-acquisition.json` | 1. Acquisition tools (37 entries) |
 | `tools-processing.json` | 2. Processing tools (44 entries) |
-| `tools-segmentation.json` | 3. Segmentation tools (63 entries) |
+| `tools-segmentation.json` | 3. Segmentation tools (65 entries) |
 | `tools-analysis.json` | 4. Data analysis tools (69 entries) |
 | `tools-cross-stage.json` | 5. Cross-stage infrastructure tools (3 entries) |
 | `tools-all.json` | All entries, flat, easy to query |
@@ -22,7 +22,7 @@ This is the human-readable index over the structured tool catalog assembled for 
 
 - 1. Acquisition: **37** tools
 - 2. Processing: **44** tools
-- 3. Segmentation: **63** tools
+- 3. Segmentation: **65** tools
 - 4. Data analysis: **69** tools
 - 5. Cross-stage infrastructure: **3** tools
 
@@ -30,25 +30,25 @@ This is the human-readable index over the structured tool catalog assembled for 
 
 - classical: **99**
 - ml: **98**
-- hybrid: **16**
+- hybrid: **18**
 - infrastructure: **3**
 
 **By modality** (a tool can support more than one):
 
 - spa: 118
 - cryo-et: 102
-- sstem: 31
-- fib-sem: 30
-- sbem: 26
+- sstem: 33
+- fib-sem: 32
+- sbem: 28
 - sta: 20
-- clem: 16
-- sem: 15
+- clem: 18
+- sem: 17
+- array-tomo: 12
 - cryo-clem: 10
-- array-tomo: 10
 - cryo-fib: 8
+- vem: 7
 - ilm: 7
-- vem: 5
-- lm: 2
+- lm: 3
 - all microscopy: 2
 - cross-cutting: 1
 
@@ -57,7 +57,7 @@ This is the human-readable index over the structured tool catalog assembled for 
 - peer-reviewed: 184
 - preprint: 10
 - peer-reviewed-conference: 9
-- vendor: 8
+- vendor: 10
 - open-source: 4
 - docs-only: 1
 
@@ -308,9 +308,11 @@ Each entry below shows: tool name, type tag, canonical citation, and one-line wh
 - **SerialFIB** *[classical]* — Klumpe, Sven 2021, *eLife*. Automated cryo-FIB lamella milling, especially when integrating CLEM signal for targeting.
 - **SPACEtomo** *[ML]* — Eisenstein, Fabian 2024, *Nature Methods*. When fully automated, lamella-aware tilt-series collection on yeast lamellae is the goal.
 
-### vendor-platform-segmentation (1 tool)
+### vendor-platform-segmentation (3 tools)
 
 - **Amira** *[hybrid]* — vendor (no peer-reviewed paper). Standard choice in many vEM and biomedical-imaging labs for interactive segmentation, quantitative 3D analy...
+- **arivis Pro** *[hybrid]* — vendor (no peer-reviewed paper). Interactive 3D/4D segmentation and tracking on multi-TB volumes from a single workstation, especially in ZEISS-equ...
+- **Dragonfly** *[hybrid]* — vendor (no peer-reviewed paper). Interactive 3D segmentation, quantification and publication-quality rendering for FIB-SEM, SBEM and correlative micro-...
 
 ### manual landmark-based deformable registration (1 tool)
 
