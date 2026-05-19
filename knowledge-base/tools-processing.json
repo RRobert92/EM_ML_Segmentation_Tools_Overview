@@ -1,0 +1,2011 @@
+{
+  "stage": "processing",
+  "generated": "2026-05-18",
+  "tool_count": 44,
+  "tools": [
+    {
+      "name": "alignframes (IMOD)",
+      "aliases": [
+        "alignframes",
+        "IMOD movie alignment"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "motion-correction",
+      "approach": "Whole-frame and optional patch-tracking alignment of movie frames within the IMOD package, with options for dark/gain correction and binning; pairs with Etomo for tilt-series workflows.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Mastronarde",
+        "year": "2017",
+        "venue": "Journal of Structural Biology (companion to the etomo auto-alignment paper)",
+        "doi": "10.1016/j.jsb.2016.07.011",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/27444392/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://bio3d.colorado.edu/imod/",
+      "inputs": [
+        "MRC movie or tilt-series frame stack",
+        "gain/defect reference"
+      ],
+      "outputs": [
+        "aligned tilt-series stack",
+        "frame shifts log"
+      ],
+      "when_to_use": "When the rest of the pipeline lives in IMOD/Etomo (especially classical fiducial-based tomography); enables a single-suite workflow.",
+      "limitations": "Less GPU acceleration than MotionCor2/3; documented best for tilt-series frame alignment rather than high-end SPA movies.",
+      "compute": "CPU (multi-threaded); CUDA optional.",
+      "license": "GPL-style IMOD license (free academic)",
+      "integration_targets": [
+        "IMOD/Etomo (native)",
+        "AreTomo (via IMOD stacks)"
+      ],
+      "last_meaningful_update": "IMOD 4.12 (2024-2025) continues maintenance at Boulder Lab.",
+      "verification_notes": "Mastronarde & Held (2017) JSB 197:102-113 is the canonical 'Automated tilt series alignment and tomographic reconstruction in IMOD' paper that documents the modern alignframes tooling chain (PMID 27444392)."
+    },
+    {
+      "name": "AlignParts_LMBFGS",
+      "aliases": [
+        "alignparts_lmbfgs",
+        "alignparts-lm-bfgs"
+      ],
+      "type": "classical",
+      "modalities": [
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "motion-correction",
+      "approach": "Per-particle movie alignment posed as an optimization: maximizes correlation between Fourier transforms of individual frames and the all-frame sum, solved with the L-BFGS quasi-Newton algorithm; per-particle trajectories smoothed locally to enforce spatial continuity.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Rubinstein",
+        "year": "2015",
+        "venue": "Journal of Structural Biology",
+        "doi": "10.1016/j.jsb.2015.08.007",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/26296328/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://sites.google.com/site/rubinsteingroup/direct-detector-lm-bfgs",
+      "inputs": [
+        "MRC movie",
+        "approximate particle coordinates"
+      ],
+      "outputs": [
+        "per-particle aligned movie frames",
+        "particle-level trajectories"
+      ],
+      "when_to_use": "Historic per-particle motion correction; conceptually superseded by RELION's Bayesian polishing and cryoSPARC's local motion correction but still cited as the methodological ancestor.",
+      "limitations": "No GPU support; per-particle local trajectories assume mild deviation from whole-frame motion; rarely used in 2026 outside legacy pipelines.",
+      "compute": "CPU; Fortran source.",
+      "license": "Free academic.",
+      "integration_targets": [
+        "standalone",
+        "early RELION pipelines"
+      ],
+      "last_meaningful_update": "2017; superseded in practice.",
+      "verification_notes": "Rubinstein JL & Brubaker MA (2015) JSB 192:188-195 verified via the arXiv preprint 1409.6789 and Sciencedirect; PMID 26296328."
+    },
+    {
+      "name": "AlignTK",
+      "aliases": [
+        "aligntk",
+        "Align-TK"
+      ],
+      "type": "classical",
+      "modalities": [
+        "array-tomo",
+        "sstem"
+      ],
+      "stage": "processing",
+      "subtask": "section-alignment",
+      "approach": "Toolkit (C/Perl) for serial-section EM montage and alignment combining feature-based affine alignment with iterative elastic warping; long-time mainstay of Bock-lab and other connectomics groups before SOFIMA.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Wetzel",
+        "year": "2016",
+        "venue": "Methods (book chapter / lab documentation)",
+        "doi": null,
+        "url": "https://mmbios.pitt.edu/aligntk-home"
+      },
+      "source_type": "open-source",
+      "repo": "https://mmbios.pitt.edu/aligntk-home",
+      "inputs": [
+        "serial-section EM tiles"
+      ],
+      "outputs": [
+        "aligned EM stacks"
+      ],
+      "when_to_use": "Where existing lab pipelines depend on AlignTK; otherwise SOFIMA is preferred for new volumes.",
+      "limitations": "No definitive peer-reviewed method paper; usage documented mainly through Bock et al. 2011 and downstream Janelia/Pitt project papers. Limited active development.",
+      "compute": "CPU clusters.",
+      "license": "Open source (custom license; redistributed by MMBIOS).",
+      "integration_targets": [
+        "FlyEM pipelines (legacy)",
+        "Pitt MMBIOS workflows"
+      ],
+      "last_meaningful_update": "Sporadic; treat as legacy.",
+      "verification_notes": "AlignTK does not have a clean canonical journal paper. Researchers typically cite Bock DD et al. 2011 Nature 471:177-182 (which describes its use) or the MMBIOS documentation. Flag for the writer: do not present as a single-paper tool."
+    },
+    {
+      "name": "AreTomo",
+      "aliases": [],
+      "type": "classical",
+      "modalities": [
+        "cryo-et"
+      ],
+      "stage": "processing",
+      "subtask": "tilt-series alignment and tomogram reconstruction",
+      "approach": "GPU-accelerated fiducial-less (and fiducial-aware) tilt-series alignment via iterative projection matching against a coarsely reconstructed tomogram volume. Performs local motion correction, alignment, sample-tilt and rotation estimation, and back-projection or SIRT reconstruction in one binary.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Zheng",
+        "year": "2022",
+        "venue": "Journal of Structural Biology: X",
+        "doi": "10.1016/j.yjsbx.2022.100068",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/35601683/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/czimaginginstitute/AreTomo2",
+      "inputs": [
+        "aligned/raw tilt-series stack",
+        "tilt angle file"
+      ],
+      "outputs": [
+        "aligned tilt-series",
+        "tomogram volume",
+        "alignment metadata"
+      ],
+      "when_to_use": "Default fiducial-less alignment for cellular cryo-ET and lamellae where IMOD's marker-based workflow is impractical; the workhorse step between Warp/RELION preprocessing and STA.",
+      "limitations": "Projection matching can fail on extremely low-SNR or thick samples; no CTF or live-pipeline features (use AreTomo3/Live instead).",
+      "compute": "Single GPU (~12 GB VRAM minimum); multi-GPU supported in v2.",
+      "license": "BSD-3 (CZ Imaging Institute fork)",
+      "integration_targets": [
+        "IMOD",
+        "Warp/M",
+        "RELION 4/5 tomo",
+        "nextPYP",
+        "TOMOMAN"
+      ],
+      "last_meaningful_update": "AreTomo2 active maintenance 2024 (CZII fork).",
+      "verification_notes": "Zheng S, Wolff G, Greenan G, Chen Z, Faas FGA, Bárcena M, Koster AJ, Cheng Y, Agard DA. J Struct Biol X 6:100068 (2022). PMID 35601683, DOI 10.1016/j.yjsbx.2022.100068. This is the canonical AreTomo paper; AreTomo3 and AreTomoLive (below) are separate, more recent code lines. | DUP: canonical entry in stage 'data_analysis'.",
+      "canonical_stage": "data_analysis"
+    },
+    {
+      "name": "AreTomo3",
+      "aliases": [
+        "AreTomo 3"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et"
+      ],
+      "stage": "processing",
+      "subtask": "end-to-end cryo-ET preprocessing and reconstruction",
+      "approach": "Integrated multi-GPU pipeline merging the functions of MotionCor3, AreTomo2 and GCtfFind into one autonomous application: global+local beam-induced motion correction, defocus-handedness determination, sample-geometry estimation, local CTF correction, alignment, and reconstruction, run in parallel with data collection.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Peck, A.",
+        "year": "2025",
+        "venue": "bioRxiv (preprint)",
+        "doi": "10.1101/2025.03.11.642690",
+        "url": "https://www.biorxiv.org/content/10.1101/2025.03.11.642690v1"
+      },
+      "source_type": "preprint",
+      "repo": "https://github.com/czimaginginstitute/AreTomo3",
+      "inputs": [
+        "raw tilt movies (TIFF/EER/MRC)",
+        "tilt-scheme/mdoc metadata"
+      ],
+      "outputs": [
+        "motion-corrected frames",
+        "aligned tilt-series",
+        "CTF parameters",
+        "reconstructed tomograms",
+        "curation flags"
+      ],
+      "when_to_use": "On-the-fly cryo-ET pipelines at the microscope; recommended for high-throughput tomography and as a feed to RELION-5 / Warp 2 / nextPYP.",
+      "limitations": "No peer-reviewed publication separate from the AreTomoLive preprint as of 2026-05; benchmarking still community-driven; GPU-heavy.",
+      "compute": "Multi-GPU workstation (typically 2-4 GPUs, >=24 GB each).",
+      "license": "BSD-3 (CZ Imaging Institute)",
+      "integration_targets": [
+        "RELION 5 tomo",
+        "Warp 2/WarpTools",
+        "nextPYP",
+        "DenoisET",
+        "TOMOMAN"
+      ],
+      "last_meaningful_update": "AreTomo3 v2.0 released 2024-10; AreTomoLive bundle 2025-03.",
+      "verification_notes": "AreTomo3 is described jointly with DenoisET in the AreTomoLive preprint (Peck A, Yu Y, Paraan M, Kimanius D, et al., bioRxiv 2025.03.11.642690, 2025-03). No standalone Stabrin-Zheng 2024 IUCrJ paper was located; expert gap suggestion appears incorrect on that citation."
+    },
+    {
+      "name": "AreTomoLive",
+      "aliases": [
+        "AreTomo Live"
+      ],
+      "type": "hybrid",
+      "modalities": [
+        "cryo-et"
+      ],
+      "stage": "processing",
+      "subtask": "real-time cryo-ET reconstruction with denoising",
+      "approach": "Pipeline bundling AreTomo3 with the DenoisET Noise2Noise-style denoiser to deliver fully reconstructed and contrast-enhanced tomograms within minutes of acquisition. Includes a curation interface for live QA and downstream export to RELION/Warp.",
+      "architecture": "Classical AreTomo3 alignment + denoising CNN (Noise2Noise-style).",
+      "training_paradigm": "self_supervised (DenoisET module trained on even/odd splits)",
+      "training_data": "Per-dataset self-supervision; no static training corpus required.",
+      "pretrained_weights_available": "no (self-supervised at runtime)",
+      "citation": {
+        "first_author": "Peck, A.",
+        "year": "2025",
+        "venue": "bioRxiv (preprint)",
+        "doi": "10.1101/2025.03.11.642690",
+        "url": "https://www.biorxiv.org/content/10.1101/2025.03.11.642690v1"
+      },
+      "source_type": "preprint",
+      "repo": "https://github.com/czimaginginstitute/AreTomo3",
+      "inputs": [
+        "streaming raw tilt movies"
+      ],
+      "outputs": [
+        "denoised tomograms in near-real-time",
+        "live QA metrics"
+      ],
+      "when_to_use": "Microscope-side live tomography: judging tilt-series quality, on-the-fly selection for STA, sessions where decisions must be made within minutes.",
+      "limitations": "Preprint only; pipeline reliability depends on GPU bandwidth and AreTomo3 stability; limited testing on non-CZII data ecosystems.",
+      "compute": "Multi-GPU (>=2 GPUs recommended).",
+      "license": "BSD-3 (CZII)",
+      "integration_targets": [
+        "AreTomo3",
+        "DenoisET",
+        "RELION 5 tomo",
+        "Warp 2",
+        "cryoSPARC import"
+      ],
+      "last_meaningful_update": "Active 2025; bioRxiv 2025.03.11.642690.",
+      "verification_notes": "AreTomoLive preprint: Peck, Yu, Paraan, Kimanius et al., bioRxiv 2025.03.11.642690 (2025-03). No peer-reviewed version yet."
+    },
+    {
+      "name": "Bayesian polishing (RELION)",
+      "aliases": [
+        "RELION particle polishing",
+        "Bayesian particle polishing"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "motion-correction",
+      "approach": "Per-particle beam-induced motion modeled as a Gaussian process with priors that enforce spatial and temporal smoothness; jointly fits B-factor radiation-damage weights as a function of dose and resolution. Replaces older RELION particle polishing.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Zivanov",
+        "year": "2019",
+        "venue": "IUCrJ",
+        "doi": "10.1107/S205225251801463X",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/30713699/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/3dem/relion",
+      "inputs": [
+        "aligned movie frames",
+        "refined particle poses + STAR file"
+      ],
+      "outputs": [
+        "polished shiny particles (STAR + MRCS)",
+        "per-particle dose-weighted sums"
+      ],
+      "when_to_use": "Final post-MotionCor refinement step before high-resolution 3D refinement in RELION; essential for sub-3 A SPA reconstructions in most pipelines.",
+      "limitations": "Requires upstream pose estimates; sensitive to bad particle classes; runtime non-trivial for large datasets.",
+      "compute": "CPU and GPU (MPI multi-process).",
+      "license": "GPL-2.0",
+      "integration_targets": [
+        "RELION (native)",
+        "Scipion"
+      ],
+      "last_meaningful_update": "RELION 5 (2024) extends Bayesian polishing concepts to tilt-series-level refinement.",
+      "verification_notes": "Zivanov J, Nakane T, Scheres SHW. IUCrJ 6:5-17 (2019) verified PMID 30713699."
+    },
+    {
+      "name": "cryo-CARE",
+      "aliases": [
+        "cryoCARE",
+        "cryoCARE_T2T",
+        "cryoCARE_mpido"
+      ],
+      "type": "ml",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "denoising",
+      "approach": "Noise2Noise-style content-aware denoising: trains a U-Net to map one noisy realization (even-frame sum or even-frame tomogram) to a paired independent noisy realization (odd-frame sum/tomogram), exploiting independence of shot noise between halves.",
+      "architecture": "2D and 3D U-Net (encoder-decoder CNN with skip connections; CARE/CSBDeep lineage).",
+      "training_paradigm": "self_supervised_n2n",
+      "training_data": "Even/odd movie-frame splits of the user's own dataset; no external labels.",
+      "pretrained_weights_available": false,
+      "citation": {
+        "first_author": "Buchholz",
+        "year": "2019",
+        "venue": "IEEE ISBI 2019",
+        "doi": "10.1109/ISBI.2019.8759519",
+        "url": "https://arxiv.org/abs/1810.05420"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/juglab/cryoCARE_T2T",
+      "inputs": [
+        "paired even/odd movie sums (2D) or even/odd tomograms (3D)"
+      ],
+      "outputs": [
+        "denoised micrograph or tomogram (MRC)"
+      ],
+      "when_to_use": "Cryo-ET tomogram visualization and downstream segmentation; SPA micrograph denoising for visualization (not for downstream refinement, which would risk FSC inflation).",
+      "limitations": "Requires paired even/odd realizations; risks artificially correlating half-maps if used inside the SPA refinement loop; visual improvement does not guarantee resolution gain.",
+      "compute": "Single GPU; 8-24 GB VRAM depending on patch size.",
+      "license": "BSD-3-Clause",
+      "integration_targets": [
+        "RELION 5 tomo denoise wrapper",
+        "Warp (even/odd reconstructions)",
+        "Scipion plugin"
+      ],
+      "last_meaningful_update": "Active forks (KudryashevLab, EuanPyle/cryoCARE_mpido) as of 2024-2025.",
+      "verification_notes": "Buchholz T-O, Jordan M, Pigino G, Jug F. Proc. IEEE ISBI 2019:502-506 verified DOI 10.1109/ISBI.2019.8759519; arXiv 1810.05420."
+    },
+    {
+      "name": "CryoFM",
+      "aliases": [
+        "Cryo-FM"
+      ],
+      "type": "ml",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "foundation model / generative prior for density maps",
+      "approach": "Flow-matching generative foundation model trained on EMDB density maps that learns a prior over cryo-EM densities. Downstream tasks (denoising, missing-wedge filling, map sharpening, ab initio guidance) are recast as flow-posterior-sampling problems against this prior, requiring no per-task retraining.",
+      "architecture": "U-Net-style score/velocity backbone with 3D inputs; trained with flow matching.",
+      "training_paradigm": "self_supervised generative (flow matching)",
+      "training_data": "Curated subset of EMDB density maps.",
+      "pretrained_weights_available": "yes",
+      "citation": {
+        "first_author": "Yu",
+        "year": "2025",
+        "venue": "ICLR (International Conference on Learning Representations)",
+        "doi": "10.48550/arXiv.2410.08631",
+        "url": "https://arxiv.org/abs/2410.08631"
+      },
+      "source_type": "peer-reviewed-conference",
+      "repo": "https://github.com/Westlake-AI/cryofm",
+      "inputs": [
+        "3D cryo-EM density volumes (corrupted or partial)"
+      ],
+      "outputs": [
+        "sampled posterior density volumes for the downstream task"
+      ],
+      "when_to_use": "Plug-and-play prior for low-SNR/incomplete cryo-EM maps; alternative to bespoke task-specific networks; principled for missing-wedge filling and density modification.",
+      "limitations": "Computationally heavy at inference (iterative sampling); validation primarily on synthetic and benchmark data; behaviour on cellular cryo-ET still being established.",
+      "compute": "GPU (>=24 GB VRAM); inference is iterative.",
+      "license": "MIT",
+      "integration_targets": [
+        "ChimeraX",
+        "RELION (post-processing)",
+        "cryoSPARC export"
+      ],
+      "last_meaningful_update": "ICLR 2025; arXiv updates through Dec 2024.",
+      "verification_notes": "Yu C, Wang Z, Wei J et al. 'CryoFM: A Flow-based Foundation Model for Cryo-EM Densities.' ICLR 2025; arXiv:2410.08631. Westlake AI / Westlake University authorship."
+    },
+    {
+      "name": "CryoGEM",
+      "aliases": [
+        "Cryo-GEM"
+      ],
+      "type": "ml",
+      "modalities": [
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "synthetic-data generation (generative prior)",
+      "approach": "Physics-informed generative model that simulates cryo-EM imaging from a virtual specimen and then uses contrastive-learning-based unpaired noise translation (mask-guided sampling) to inject realistic noise distributions. Outputs are physically-correct synthetic micrographs suitable as training data for pickers, pose estimators, and denoisers.",
+      "architecture": "Physics simulator + contrastive unpaired image-to-image translation (CUT/CycleGAN family); not a diffusion model.",
+      "training_paradigm": "unpaired contrastive (self-supervised)",
+      "training_data": "Real cryo-EM micrographs used only for unpaired style learning; ground-truth particle locations come from the simulator.",
+      "pretrained_weights_available": "yes",
+      "citation": {
+        "first_author": "Zhang",
+        "year": "2024",
+        "venue": "NeurIPS (Advances in Neural Information Processing Systems)",
+        "doi": "10.48550/arXiv.2312.02235",
+        "url": "https://arxiv.org/abs/2312.02235"
+      },
+      "source_type": "peer-reviewed-conference",
+      "repo": "https://github.com/jiakai-zhang/cryogem",
+      "inputs": [
+        "virtual specimen (PDB/EMDB)",
+        "real micrograph set for style"
+      ],
+      "outputs": [
+        "synthetic cryo-EM micrographs with ground-truth particle metadata"
+      ],
+      "when_to_use": "Augmenting picker/pose-estimator training when annotated micrographs are scarce; pretraining foundation models for cryo-EM where real labelled data is limited.",
+      "limitations": "Not a diffusion model despite generative framing; style transfer can fail on imaging conditions outside the training distribution; downstream improvement is task-specific.",
+      "compute": "GPU (>=16 GB VRAM) for training; inference fast.",
+      "license": "MIT",
+      "integration_targets": [
+        "Topaz",
+        "crYOLO",
+        "cryoDRGN (data augmentation)"
+      ],
+      "last_meaningful_update": "NeurIPS 2024 publication; arXiv 2024-09.",
+      "verification_notes": "Zhang J et al. 'CryoGEM: Physics-Informed Generative Cryo-Electron Microscopy.' NeurIPS 2024. arXiv:2312.02235. Not in Nature Methods as suggested in gap text."
+    },
+    {
+      "name": "cryoSPARC Live",
+      "aliases": [
+        "cryoSPARC Live"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "normalization",
+      "approach": "Live on-the-fly preprocessing (motion correction, CTF, picking, 2D class) inside cryoSPARC, with continuous micrograph QA and exposure curation as data stream in.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Punjani",
+        "year": "2017",
+        "venue": "Nature Methods (cryoSPARC); Live feature documented in cryoSPARC guide and unpublished talks",
+        "doi": "10.1038/nmeth.4169",
+        "url": "https://guide.cryosparc.com/processing-data/cryosparc-live"
+      },
+      "source_type": "peer-reviewed",
+      "repo": null,
+      "inputs": [
+        "streaming micrographs from EPU/SerialEM/Leginon"
+      ],
+      "outputs": [
+        "live processing dashboard, live QA flags, exposure curation"
+      ],
+      "when_to_use": "Live SPA session monitoring at facilities running cryoSPARC; preferred over Warp Live for cryoSPARC-centric pipelines.",
+      "limitations": "Closed source; subset of cryoSPARC algorithms; commercial license required for non-academic users.",
+      "compute": "GPU workstation (24-48 GB VRAM recommended).",
+      "license": "cryoSPARC EULA.",
+      "integration_targets": [
+        "cryoSPARC",
+        "Smart EPU"
+      ],
+      "last_meaningful_update": "cryoSPARC 4.x.",
+      "verification_notes": "No peer-reviewed Live-specific paper; cite the 2017 algorithms paper for the underlying methods and the cryoSPARC guide for Live behavior. | DUP: canonical entry in stage 'acquisition'.",
+      "canonical_stage": "acquisition"
+    },
+    {
+      "name": "cryoSPARC patch motion correction",
+      "aliases": [
+        "cryoSPARC motion correction",
+        "patch motion correction"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "motion-correction",
+      "approach": "cryoSPARC's in-suite GPU motion correction, similar in spirit to MotionCor2 (patch-based local motion); paired with Patch CTF estimation. Documented in the cryoSPARC user guide rather than in the algorithms paper, which focuses on reconstruction.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Punjani",
+        "year": "2017",
+        "venue": "Nature Methods (the foundational cryoSPARC algorithms paper)",
+        "doi": "10.1038/nmeth.4169",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/28165473/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": null,
+      "inputs": [
+        "MRC/TIFF/EER movies"
+      ],
+      "outputs": [
+        "motion-corrected micrographs with dose weighting",
+        "CTF estimates (Patch CTF)"
+      ],
+      "when_to_use": "Within a cryoSPARC-only pipeline where running external tools is undesirable; closely matched performance to MotionCor2.",
+      "limitations": "Closed-source freeware (Structura Biotechnology); algorithmic details only partially published; commercial license required for paid users.",
+      "compute": "Single CUDA GPU; cryoSPARC v4.x.",
+      "license": "cryoSPARC EULA (free academic; commercial license required for paid users)",
+      "integration_targets": [
+        "cryoSPARC",
+        "import from Patch CTF to RELION"
+      ],
+      "last_meaningful_update": "cryoSPARC 4.6 / 4.7 (2024-2025).",
+      "verification_notes": "The algorithms paper (Punjani et al. 2017) covers ab-initio and refinement; patch motion correction is documented in the cryoSPARC user guide. Cite the 2017 paper plus the guide URL when needed."
+    },
+    {
+      "name": "CTFFIND4",
+      "aliases": [
+        "ctffind4"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "ctf-estimation",
+      "approach": "Fits a parametric CTF model to the rotational average and 2D power spectrum of a micrograph; uses fast 1D search followed by 2D refinement to estimate defocus, astigmatism, and (with phase plates) phase shift.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Rohou",
+        "year": "2015",
+        "venue": "Journal of Structural Biology",
+        "doi": "10.1016/j.jsb.2015.08.008",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/26278980/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://grigoriefflab.umassmed.edu/ctffind4",
+      "inputs": [
+        "micrograph MRC",
+        "voltage/pixel-size/Cs metadata"
+      ],
+      "outputs": [
+        "estimated defocus, astigmatism, phase shift",
+        "diagnostic power-spectrum PNG"
+      ],
+      "when_to_use": "Default open-source CTF estimator for SPA and tilt-series; reliable, fast, well-validated; the workhorse for >99% of cryo-EM facilities.",
+      "limitations": "Assumes thin, untilted sample; degrades on highly tilted or thick specimens (addressed by CTFFIND5).",
+      "compute": "CPU; multi-threaded; very fast (<1 s/micrograph).",
+      "license": "Free academic (cisTEM family)",
+      "integration_targets": [
+        "RELION",
+        "cryoSPARC",
+        "Scipion",
+        "cisTEM",
+        "Warp",
+        "Focus"
+      ],
+      "last_meaningful_update": "Maintained inside cisTEM; CTFFIND5 supersedes for tilted/thick samples.",
+      "verification_notes": "Rohou A & Grigorieff N (2015) JSB 192:216-221 verified PMID 26278980."
+    },
+    {
+      "name": "CTFFIND5",
+      "aliases": [
+        "ctffind5"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "ctf-estimation",
+      "approach": "Extends CTFFIND4 with (a) patch-wise CTF fits to estimate sample tilt directly from a single micrograph (claimed 3-degree accuracy), and (b) a modified CTF model accounting for sample thickness (claimed 5 nm accuracy). Validated on tilted 2D aquaporin crystals and FIB-milled cell lamellae.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Elferich",
+        "year": "2024",
+        "venue": "eLife",
+        "doi": "10.7554/eLife.97227",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39704651/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/GrigorieffLab/cisTEM_cli",
+      "inputs": [
+        "micrograph MRC, optionally a per-tilt stack"
+      ],
+      "outputs": [
+        "defocus, astigmatism, phase shift, estimated sample tilt and thickness"
+      ],
+      "when_to_use": "Cryo-FIB lamella micrographs, tilted SPA collections, thick in-situ samples; whenever CTFFIND4 underperforms because of tilt or thickness.",
+      "limitations": "Slower than CTFFIND4 at default settings; tilt and thickness estimates depend on power-spectrum quality.",
+      "compute": "CPU.",
+      "license": "Free academic (cisTEM family)",
+      "integration_targets": [
+        "cisTEM",
+        "RELION (via wrappers)",
+        "Warp"
+      ],
+      "last_meaningful_update": "Final eLife publication December 2024; bioRxiv version Feb 2024.",
+      "verification_notes": "Elferich J, Kong S, Zhang Q, Sigworth FJ, Grigorieff N. eLife 13:e97227 (2024) verified PMID 39704651 / DOI 10.7554/eLife.97227."
+    },
+    {
+      "name": "DeepDeWedge",
+      "aliases": [
+        "deepdewedge"
+      ],
+      "type": "ml",
+      "modalities": [
+        "cryo-et"
+      ],
+      "stage": "processing",
+      "subtask": "wedge-correction",
+      "approach": "Self-supervised joint denoising and missing-wedge filling. A randomly-initialized 3D U-Net is fit per tomogram with a self-supervised loss that uses both even/odd subsets of tilts and synthetic wedge masking; combines Noise2Noise and missing-wedge-masking objectives.",
+      "architecture": "3D U-Net.",
+      "training_paradigm": "self_supervised_n2n",
+      "training_data": "Two reconstructions from disjoint tilt subsets of the same tomogram (no external labels).",
+      "pretrained_weights_available": false,
+      "citation": {
+        "first_author": "Wiedemann",
+        "year": "2024",
+        "venue": "Nature Communications",
+        "doi": "10.1038/s41467-024-51438-y",
+        "url": "https://www.nature.com/articles/s41467-024-51438-y"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/MLI-lab/DeepDeWedge",
+      "inputs": [
+        "paired-subset tilt reconstructions of a single tomogram"
+      ],
+      "outputs": [
+        "denoised, wedge-filled tomogram"
+      ],
+      "when_to_use": "Cryo-ET tomograms with extreme missing-wedge artifacts where IsoNet under-performs; particularly for thick in-situ samples.",
+      "limitations": "Per-tomogram fit (no pretrained weights); hallucination warning identical to IsoNet; runtime can be hours.",
+      "compute": "GPU with 24+ GB VRAM for typical tomograms.",
+      "license": "MIT",
+      "integration_targets": [
+        "RELION-Tomo outputs",
+        "downstream MemBrain-seg / DeePiCt"
+      ],
+      "last_meaningful_update": "Final Nat Commun publication 2024; v3 arXiv 2311.05539 updated 2024.",
+      "verification_notes": "Wiedemann S & Heckel R. Nat Commun 15:8255 (2024) verified DOI 10.1038/s41467-024-51438-y; arXiv 2311.05539. | DUP: canonical entry in stage 'data_analysis'.",
+      "canonical_stage": "data_analysis"
+    },
+    {
+      "name": "DenoisET",
+      "aliases": [
+        "denoiset"
+      ],
+      "type": "ml",
+      "modalities": [
+        "cryo-et"
+      ],
+      "stage": "processing",
+      "subtask": "denoising",
+      "approach": "Noise2Noise implementation tailored to cryo-ET tomograms; designed for live-acquisition integration with AreTomo3/AreTomoLive: it auto-selects training tomograms and transitions from training to inference during streaming acquisition.",
+      "architecture": "3D U-Net (Noise2Noise objective).",
+      "training_paradigm": "self_supervised_n2n",
+      "training_data": "Even/odd tomogram reconstructions emitted by AreTomo3 during acquisition.",
+      "pretrained_weights_available": false,
+      "citation": {
+        "first_author": "Peck, A.",
+        "year": "2025",
+        "venue": "bioRxiv (companion to AreTomoLive)",
+        "doi": null,
+        "url": "https://github.com/apeck12/denoiset"
+      },
+      "source_type": "preprint",
+      "repo": "https://github.com/apeck12/denoiset",
+      "inputs": [
+        "paired even/odd tomograms from AreTomo3 / AreTomoLive"
+      ],
+      "outputs": [
+        "denoised tomogram (MRC)"
+      ],
+      "when_to_use": "Live cryo-ET acquisition at facilities running AreTomoLive; alternative to cryoCARE-tomo with simpler integration.",
+      "limitations": "Preprint-stage at time of writing; tied to AreTomo3 outputs; no large-scale validation outside the AreTomoLive paper.",
+      "compute": "Single GPU.",
+      "license": "BSD-3-Clause",
+      "integration_targets": [
+        "AreTomo3",
+        "AreTomoLive"
+      ],
+      "last_meaningful_update": "Active GitHub through 2025.",
+      "verification_notes": "DenoisET appears to lack a dedicated standalone paper; described in the AreTomoLive preprint (Peck A et al., 2025). Verify the AreTomoLive citation before chapter inclusion."
+    },
+    {
+      "name": "EER (Electron-Event Representation)",
+      "aliases": [
+        "EER format",
+        "Falcon 4i EER"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "normalization",
+      "approach": "Per-electron event encoding (x,y,frame-time) at sub-pixel and high temporal resolution; supports flexible re-fractionation at processing time. Strictly a file format and frame-handling convention rather than an algorithm, but it shapes how all downstream motion-correction and dose-weighting tools operate.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Guo",
+        "year": "2020",
+        "venue": "IUCrJ",
+        "doi": "10.1107/S205225252001059X",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/32939278/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": null,
+      "inputs": [
+        "Falcon 4/4i raw electron events"
+      ],
+      "outputs": [
+        "EER file (lossless event stream)"
+      ],
+      "when_to_use": "Acquisition output of all Falcon 4/4i sessions in 2024-2026; processed by MotionCor3, Warp, RELION 5, and cryoSPARC with native EER ingestion.",
+      "limitations": "Requires updated readers; vendor-specific format though documented publicly.",
+      "compute": "n/a",
+      "license": "Format publicly documented (Thermo Fisher / SickKids); open readers in MotionCor3 and others.",
+      "integration_targets": [
+        "MotionCor3",
+        "Warp",
+        "RELION 5",
+        "cryoSPARC",
+        "AreTomo3"
+      ],
+      "last_meaningful_update": "Standardized; readers updated 2023-2024.",
+      "verification_notes": "Guo H, Franken E, Deng Y, Benlekbir S, Singla Lezcano G, Janssen B et al. IUCrJ 7:860-869 (2020) verified PMID 32939278."
+    },
+    {
+      "name": "Fiji Linear Stack Alignment with SIFT",
+      "aliases": [
+        "SIFT alignment (Fiji)",
+        "Linear Stack Alignment with SIFT"
+      ],
+      "type": "classical",
+      "modalities": [
+        "array-tomo",
+        "fib-sem",
+        "sbem",
+        "sstem"
+      ],
+      "stage": "processing",
+      "subtask": "section-alignment",
+      "approach": "Scale-Invariant Feature Transform (SIFT) keypoint extraction and matching across consecutive sections, followed by a least-squares affine or rigid transform per section. Distributed as a Fiji plugin.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Lowe",
+        "year": "2004",
+        "venue": "International Journal of Computer Vision (foundational SIFT paper)",
+        "doi": "10.1023/B:VISI.0000029664.99615.94",
+        "url": "https://www.cs.ubc.ca/~lowe/keypoints/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://imagej.net/plugins/linear-stack-alignment-with-sift",
+      "inputs": [
+        "TIFF/PNG image stack"
+      ],
+      "outputs": [
+        "rigid- or affine-aligned image stack"
+      ],
+      "when_to_use": "First-pass rough alignment of small vEM stacks; pedagogical default in Fiji; rarely sufficient as final alignment for connectomics.",
+      "limitations": "No non-linear warping; fails on highly deformed sections; reference SIFT paper is computer-vision rather than EM-specific.",
+      "compute": "CPU.",
+      "license": "GPL (Fiji plugin)",
+      "integration_targets": [
+        "Fiji",
+        "TrakEM2"
+      ],
+      "last_meaningful_update": "Maintained as Fiji plugin; methodology stable.",
+      "verification_notes": "Canonical SIFT reference is Lowe DG (2004) IJCV 60:91-110. The Fiji plugin is documented at imagej.net and uses Saalfeld's implementation."
+    },
+    {
+      "name": "Gctf",
+      "aliases": [
+        "gctf"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "ctf-estimation",
+      "approach": "GPU-accelerated CTF estimation by maximizing cross-correlation between simulated CTF and log-amplitude spectrum after background subtraction; introduces equiphase averaging (EPA) and a 1D-search+2D-refinement strategy. Supports per-particle and per-frame local refinement.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Zhang",
+        "year": "2016",
+        "venue": "Journal of Structural Biology",
+        "doi": "10.1016/j.jsb.2015.11.003",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/26592709/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://www2.mrc-lmb.cam.ac.uk/research/locally-developed-software/zhang-software/",
+      "inputs": [
+        "micrograph MRC",
+        "voltage/pixel-size/Cs"
+      ],
+      "outputs": [
+        "defocus, astigmatism, phase shift",
+        "per-particle defocus refinement"
+      ],
+      "when_to_use": "Faster than CTFFIND4 on GPUs (10-50x); historically common for per-particle defocus refinement.",
+      "limitations": "Closed-source binary distributed by author; minimally maintained since ~2018; per-particle refinement now offered natively by cryoSPARC/RELION.",
+      "compute": "Single CUDA GPU.",
+      "license": "Free academic binary (closed source).",
+      "integration_targets": [
+        "RELION",
+        "Scipion",
+        "cryoSPARC import"
+      ],
+      "last_meaningful_update": "Final public binary 1.18 (2018); no active development.",
+      "verification_notes": "Zhang K (2016) JSB 193:1-12 verified PMID 26592709."
+    },
+    {
+      "name": "IsoNet",
+      "aliases": [
+        "isonet"
+      ],
+      "type": "ml",
+      "modalities": [
+        "cryo-et"
+      ],
+      "stage": "processing",
+      "subtask": "wedge-correction",
+      "approach": "Iterative deep learning for joint missing-wedge restoration and denoising of single cryo-ET tomograms. Trains a 3D U-Net to predict full-tomogram structure from versions in which a synthetic wedge has been masked; the network learns to fill in missing Fourier directions from features observed elsewhere in the same tomogram.",
+      "architecture": "3D U-Net (Cicek-style) with custom missing-wedge masking loss.",
+      "training_paradigm": "self_supervised_masked",
+      "training_data": "The user's own tomograms with synthetic wedge masking (no external labels). Authors validate on HIV, paraflagellar rod, neuronal-synapse tomograms.",
+      "pretrained_weights_available": false,
+      "citation": {
+        "first_author": "Liu",
+        "year": "2022",
+        "venue": "Nature Communications",
+        "doi": "10.1038/s41467-022-33957-8",
+        "url": "https://www.nature.com/articles/s41467-022-33957-8"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/IsoNet-cryoET/IsoNet",
+      "inputs": [
+        "one or more cryo-ET tomograms (MRC)"
+      ],
+      "outputs": [
+        "isotropic, denoised tomogram with reduced missing-wedge artifact"
+      ],
+      "when_to_use": "Cryo-ET visualization and segmentation when missing-wedge artifacts dominate; particularly useful before MemBrain-seg or DeePiCt.",
+      "limitations": "Iterative training is slow; hallucination risk (features may be reinforced); not used for sub-tomogram averaging (the wedge cannot be 'restored' for STA in a statistically meaningful way).",
+      "compute": "GPU with 16-24 GB VRAM; iterative training can take hours per tomogram.",
+      "license": "MIT",
+      "integration_targets": [
+        "Warp/M outputs",
+        "MemBrain-seg upstream",
+        "ChimeraX visualization"
+      ],
+      "last_meaningful_update": "Active GitHub commits as of 2024-2025.",
+      "verification_notes": "Liu Y-T, Zhang H, Wang H, Tao C-L, Bi G-Q, Zhou ZH. Nat Commun 13:6482 (2022) verified DOI 10.1038/s41467-022-33957-8. | DUP: canonical entry in stage 'data_analysis'.",
+      "canonical_stage": "data_analysis"
+    },
+    {
+      "name": "JANNI",
+      "aliases": [
+        "Just Another Noise2Noise Implementation",
+        "sphire-janni"
+      ],
+      "type": "ml",
+      "modalities": [
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "denoising",
+      "approach": "Noise2Noise CNN denoiser trained at MPI Dortmund on a pool of public cryo-EM movie pairs; ships a general pretrained model and is used as a visualization aid inside crYOLO and SPHIRE.",
+      "architecture": "U-Net (Keras/TensorFlow).",
+      "training_paradigm": "self_supervised_n2n",
+      "training_data": "Curated MPI-Dortmund/SPHIRE corpus of cryo-EM movie even/odd pairs across multiple EMPIAR samples.",
+      "pretrained_weights_available": true,
+      "citation": {
+        "first_author": "Wagner",
+        "year": "2020",
+        "venue": "Communications Biology (described alongside SPHIRE-crYOLO updates)",
+        "doi": "10.1038/s42003-020-0790-y",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/32047220/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/MPI-Dortmund/sphire-janni",
+      "inputs": [
+        "motion-corrected micrograph"
+      ],
+      "outputs": [
+        "denoised micrograph used as picking aid"
+      ],
+      "when_to_use": "Cryo-EM micrograph denoising for visualization and as input to crYOLO when raw SNR is low.",
+      "limitations": "JANNI itself does not have a dedicated peer-reviewed paper; described in the SPHIRE-crYOLO Communications Biology paper. Pretrained model biased toward holey carbon SPA grids.",
+      "compute": "Single GPU (~6-8 GB VRAM).",
+      "license": "Mozilla Public License 2.0",
+      "integration_targets": [
+        "SPHIRE-crYOLO",
+        "TranSPHIRE",
+        "Scipion"
+      ],
+      "last_meaningful_update": "Maintained inside MPI-Dortmund SPHIRE stack through 2023-2024.",
+      "verification_notes": "Wagner T et al. (2020) Commun Biol 3:61 verified PMID 32047220 / DOI 10.1038/s42003-020-0790-y. JANNI is a companion tool released alongside SPHIRE-crYOLO 1.5; no JANNI-only paper exists."
+    },
+    {
+      "name": "M",
+      "aliases": [
+        "M (multi-particle refinement)"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa",
+        "sta"
+      ],
+      "stage": "processing",
+      "subtask": "motion-correction",
+      "approach": "Reference-based multi-particle refinement framework that jointly models per-frame and per-tilt sample deformation (spatiotemporal B-spline grids) and corrects electron-optical aberrations; bridges frame-series SPA and tilt-series cryo-ET in one optimizer. Strictly speaking spans processing and STA.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Tegunov",
+        "year": "2021",
+        "venue": "Nature Methods",
+        "doi": "10.1038/s41592-020-01054-7",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/33542511/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/cramerlab/warp",
+      "inputs": [
+        "Warp-preprocessed micrographs or tilt-series",
+        "RELION-style particle STAR with refined poses"
+      ],
+      "outputs": [
+        "jointly refined trajectories, CTF, and aberration parameters",
+        "refined particle stacks"
+      ],
+      "when_to_use": "When pushing tilt-series STA toward sub-4 A or aligning per-frame motion across a multi-particle population (e.g., bacterial 70S in cells at 3.5 A).",
+      "limitations": "High GPU memory requirement; pipeline tightly coupled to Warp/RELION.",
+      "compute": "CUDA GPU, ideally 24-48 GB VRAM for full tilt-series jobs.",
+      "license": "GPLv3 (bundled with Warp)",
+      "integration_targets": [
+        "Warp",
+        "RELION",
+        "cryoSPARC (via export)"
+      ],
+      "last_meaningful_update": "Warp 2.x WarpTools refresh (2024); see also M-Tools.",
+      "verification_notes": "Tegunov D, Xue L, Dienemann C, Cramer P, Mahamid J. Nat Methods 18:186-193 (2021) verified PMID 33542511."
+    },
+    {
+      "name": "MicAssess",
+      "aliases": [
+        "micassess"
+      ],
+      "type": "ml",
+      "modalities": [
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "normalization",
+      "approach": "CNN-based binary (and hierarchical sub-) classification of motion-corrected micrographs into 'good' and 'bad' categories using a ResNet-34 feature extractor and a fully-connected classifier. Designed for unattended on-the-fly micrograph curation.",
+      "architecture": "ResNet-34 backbone + fully-connected classifier with dropout.",
+      "training_paradigm": "supervised",
+      "training_data": "Labeled micrographs from the Cianfrocco lab and partner facilities; ~10K-scale binary good/bad labels.",
+      "pretrained_weights_available": true,
+      "citation": {
+        "first_author": "Li",
+        "year": "2020",
+        "venue": "IUCrJ (high-throughput cryo-EM enabled by user-free preprocessing routines)",
+        "doi": "10.1107/S2052252520005072",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/32294468/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/jianhaoc/MicAssess",
+      "inputs": [
+        "motion-corrected micrograph (MRC/JPEG)"
+      ],
+      "outputs": [
+        "good/bad label, hierarchical sub-class label, confidence"
+      ],
+      "when_to_use": "Automated micrograph curation at the start of an SPA pipeline; especially useful at high-throughput facilities running unattended sessions.",
+      "limitations": "Trained on holey-carbon SPA data; performance degrades on novel grid types; classifier-level metrics do not directly predict downstream FSC.",
+      "compute": "Single GPU recommended; CPU inference feasible.",
+      "license": "Apache 2.0 (Cianfrocco lab repo)",
+      "integration_targets": [
+        "COSMIC2 cloud",
+        "Scipion plugin",
+        "Smart Loader pipelines"
+      ],
+      "last_meaningful_update": "MicAssess 1.0 (2021); see Miffi 2024 for the successor effort.",
+      "verification_notes": "Li Y et al. IUCrJ 7:1119-1129 (2020) verified PMID 32294468. Original paper title: 'High-throughput cryo-EM enabled by user-free preprocessing routines.'"
+    },
+    {
+      "name": "Miffi",
+      "aliases": [
+        "miffi"
+      ],
+      "type": "ml",
+      "modalities": [
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "normalization",
+      "approach": "CNN micrograph filter that consumes both the real-space image and its 2D power spectrum as a two-channel input; uses transfer learning from ImageNet weights and fine-tunes on cryo-EM labels. Improves over MicAssess on crystalline ice and drift cases by exposing the Fourier signature.",
+      "architecture": "ConvNeXt (CNN) backbone with two-channel (real + power-spectrum) input and a multi-label classification head.",
+      "training_paradigm": "transfer_finetune",
+      "training_data": "Curated micrograph labels with several rejection categories (crystalline ice, drift, contamination, etc.); fine-tuned from ImageNet-pretrained ConvNeXt.",
+      "pretrained_weights_available": true,
+      "citation": {
+        "first_author": "Liao",
+        "year": "2024",
+        "venue": "Journal of Structural Biology",
+        "doi": "10.1016/j.jsb.2024.108072",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38405773/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/ando-lab/miffi",
+      "inputs": [
+        "micrograph MRC"
+      ],
+      "outputs": [
+        "multi-label classification per micrograph"
+      ],
+      "when_to_use": "Improved replacement for MicAssess where Fourier-domain artifacts (ice rings, drift) are common.",
+      "limitations": "Multi-label model still trained on holey-carbon SPA data; user-side fine-tuning recommended for unusual grid types.",
+      "compute": "Single GPU (~3 micrographs/s on a modern card); CPU possible at ~3 s/micrograph.",
+      "license": "BSD-3-Clause",
+      "integration_targets": [
+        "Scipion (scipion-em-miffi plugin)",
+        "SBGrid"
+      ],
+      "last_meaningful_update": "JSB final publication 2024; active GitHub.",
+      "verification_notes": "Liao H, Ando-lab. JSB 216(2):108072 (2024) verified PMID 38405773 / DOI 10.1016/j.jsb.2024.108072. The Ando lab repo and Scipion plugin both reference this paper."
+    },
+    {
+      "name": "MotionCor2",
+      "aliases": [
+        "motioncor2"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "motion-correction",
+      "approach": "Patch-based local motion correction of beam-induced sample movement; whole-frame translation followed by anisotropic local motion modeled per patch, with optional exposure-dependent dose weighting (Grant & Grigorieff filter).",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Zheng",
+        "year": "2017",
+        "venue": "Nature Methods",
+        "doi": "10.1038/nmeth.4193",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/28250466/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://emcore.ucsf.edu/ucsf-software",
+      "inputs": [
+        "MRC/TIFF dose-fractionated movies",
+        "gain reference",
+        "defect file"
+      ],
+      "outputs": [
+        "aligned summed micrograph (MRC)",
+        "dose-weighted sum",
+        "per-patch shift logs"
+      ],
+      "when_to_use": "Default GPU motion correction for SPA and tilt-series movie frames; integrated by virtually all SPA pipelines (RELION, cryoSPARC, Scipion, Warp).",
+      "limitations": "Classical patch optimization; cannot recover information lost to extreme beam-induced motion; requires CUDA-capable GPU; original release closed source binary (UCSF), MotionCor3 (CZII) is now open source.",
+      "compute": "Single CUDA GPU (Maxwell+); 4-8 GB VRAM usually sufficient per movie.",
+      "license": "Free academic (UCSF binary); MotionCor3 is BSD-3 via CZII.",
+      "integration_targets": [
+        "RELION",
+        "cryoSPARC",
+        "Scipion",
+        "Warp",
+        "Focus",
+        "TranSPHIRE"
+      ],
+      "last_meaningful_update": "2020 (UCSF v1.5.0); see MotionCor3 for active line.",
+      "verification_notes": "Zheng SQ et al. Nat Methods 14:331-332 (2017) verified PMID 28250466 / DOI 10.1038/nmeth.4193."
+    },
+    {
+      "name": "MotionCor3",
+      "aliases": [
+        "motioncor3"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "motion-correction",
+      "approach": "Re-implementation and extension of MotionCor2 by the original UCSF authors at CZII: multi-GPU acceleration, native EER support, integrated CTF estimation, and support for cryo-ET tilt-series movies.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Zheng",
+        "year": "2017",
+        "venue": "Nature Methods (canonical MotionCor2 paper; MotionCor3 is the same lineage)",
+        "doi": "10.1038/nmeth.4193",
+        "url": "https://github.com/czimaginginstitute/MotionCor3"
+      },
+      "source_type": "open-source",
+      "repo": "https://github.com/czimaginginstitute/MotionCor3",
+      "inputs": [
+        "MRC/TIFF/EER dose-fractionated movies",
+        "gain reference"
+      ],
+      "outputs": [
+        "aligned summed micrograph (MRC)",
+        "dose-weighted sum",
+        "CTF estimate (built-in)"
+      ],
+      "when_to_use": "Drop-in replacement for MotionCor2 on modern direct-detector data, especially Falcon 4i EER movies and tilt-series movies; preferred for open-source workflows.",
+      "limitations": "No dedicated peer-reviewed paper distinct from MotionCor2; cite MotionCor2 for methodology and reference the repository for the v3 release.",
+      "compute": "Multi-GPU optional; single GPU baseline.",
+      "license": "BSD-3-Clause (CZ Imaging Institute)",
+      "integration_targets": [
+        "RELION 5",
+        "cryoSPARC",
+        "Warp/M",
+        "Scipion",
+        "AreTomo3 / AreTomoLive"
+      ],
+      "last_meaningful_update": "Active commits at github.com/czimaginginstitute/MotionCor3 as of 2025-2026.",
+      "verification_notes": "No standalone MotionCor3 paper exists; repository README cites the 2017 MotionCor2 Nat Methods paper. CZ Imaging Institute hosts the maintained fork."
+    },
+    {
+      "name": "Noise2Noise",
+      "aliases": [
+        "N2N"
+      ],
+      "type": "ml",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "denoising",
+      "approach": "Foundational training paradigm: learn to denoise by mapping one noisy realization of a signal to another noisy realization; with zero-mean independent noise the L2-trained network converges toward the clean signal in expectation. Underlies cryo-CARE and Topaz-Denoise.",
+      "architecture": "Generic CNN/U-Net (architecture-agnostic; the contribution is the loss/training scheme).",
+      "training_paradigm": "self_supervised_n2n",
+      "training_data": "Paired noisy realizations of the same image; in cryo-EM these are even/odd movie-frame sums or even/odd tomograms.",
+      "pretrained_weights_available": false,
+      "citation": {
+        "first_author": "Lehtinen",
+        "year": "2018",
+        "venue": "Proc. 35th ICML (PMLR 80)",
+        "doi": null,
+        "url": "https://arxiv.org/abs/1803.04189"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/NVlabs/noise2noise",
+      "inputs": [
+        "paired noisy images"
+      ],
+      "outputs": [
+        "restored image"
+      ],
+      "when_to_use": "Reference for the training paradigm; not used directly in cryo-EM but cited as the methodological foundation of cryoCARE, Topaz-Denoise, JANNI, and DenoisET.",
+      "limitations": "Requires that the noise across realizations is independent and zero-mean; violated when even/odd halves are correlated through shared imaging artifacts.",
+      "compute": "Single GPU; reference implementation in TensorFlow.",
+      "license": "Custom NVIDIA research license.",
+      "integration_targets": [
+        "foundational; not directly integrated"
+      ],
+      "last_meaningful_update": "Original 2018 ICML paper; no active development of NVlabs/noise2noise.",
+      "verification_notes": "Lehtinen J et al. ICML 2018 (PMLR 80) verified arXiv 1803.04189; the proceedings entry is the canonical citation."
+    },
+    {
+      "name": "Noise2Self",
+      "aliases": [
+        "N2S"
+      ],
+      "type": "ml",
+      "modalities": [
+        "cryo-et",
+        "fib-sem",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "denoising",
+      "approach": "Self-supervised denoising via 'J-invariance': partitions pixels into groups and trains the network to predict each group from the others, so the predicted output is independent of the held-out group. Generalizes N2V and applies to any denoising function (not just CNNs).",
+      "architecture": "Architecture-agnostic (CNN, ViT, median filter all permitted); reference uses U-Net.",
+      "training_paradigm": "self_supervised_masked",
+      "training_data": "The user's own noisy stack.",
+      "pretrained_weights_available": false,
+      "citation": {
+        "first_author": "Batson",
+        "year": "2019",
+        "venue": "Proc. 36th ICML (PMLR 97)",
+        "doi": null,
+        "url": "https://arxiv.org/abs/1901.11365"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/czbiohub-sf/noise2self",
+      "inputs": [
+        "single noisy image / volume"
+      ],
+      "outputs": [
+        "denoised image / volume"
+      ],
+      "when_to_use": "Methodological reference; occasionally used in vEM denoising pipelines and single-cell imaging.",
+      "limitations": "Requires correct partition into J-invariant groups; assumes noise independence across groups.",
+      "compute": "Single GPU.",
+      "license": "MIT",
+      "integration_targets": [
+        "foundational; used in pipeline scripts"
+      ],
+      "last_meaningful_update": "2019 paper; CZ Biohub repo lightly maintained.",
+      "verification_notes": "Batson J & Royer L. ICML 2019 (PMLR 97) verified arXiv 1901.11365."
+    },
+    {
+      "name": "Noise2Void",
+      "aliases": [
+        "N2V",
+        "n2v"
+      ],
+      "type": "ml",
+      "modalities": [
+        "cryo-et",
+        "fib-sem",
+        "sbem",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "denoising",
+      "approach": "Blind-spot self-supervised denoising: at each training step a random pixel is masked and the network is trained to predict it from its neighborhood. Eliminates the need for paired data; assumes pixel-independent noise.",
+      "architecture": "Generic 2D/3D U-Net (CSBDeep/JUG-lab implementation).",
+      "training_paradigm": "self_supervised_n2v",
+      "training_data": "The user's own noisy stack; no labels and no pairs.",
+      "pretrained_weights_available": false,
+      "citation": {
+        "first_author": "Krull",
+        "year": "2019",
+        "venue": "CVPR",
+        "doi": "10.1109/CVPR.2019.00223",
+        "url": "https://openaccess.thecvf.com/content_CVPR_2019/papers/Krull_Noise2Void_-_Learning_Denoising_From_Single_Noisy_Images_CVPR_2019_paper.pdf"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/juglab/n2v",
+      "inputs": [
+        "single noisy image stack"
+      ],
+      "outputs": [
+        "denoised image stack"
+      ],
+      "when_to_use": "When paired noisy realizations are unavailable, e.g. legacy datasets without even/odd splits or single-tilt vEM stacks.",
+      "limitations": "Assumes spatially uncorrelated noise (often violated in EM after motion correction or detector binning); typically weaker than Noise2Noise when pairs are available.",
+      "compute": "Single GPU.",
+      "license": "BSD-3-Clause",
+      "integration_targets": [
+        "DeepImageJ/ZeroCostDL4Mic",
+        "Napari plugin",
+        "MIB"
+      ],
+      "last_meaningful_update": "Active maintenance through 2024-2025.",
+      "verification_notes": "Krull A, Buchholz T-O, Jug F. CVPR 2019:2129-2137 verified."
+    },
+    {
+      "name": "novaCTF",
+      "aliases": [
+        "novactf"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et"
+      ],
+      "stage": "processing",
+      "subtask": "ctf-estimation",
+      "approach": "3D-CTF correction for cryo-ET tomograms by computing per-tilt, depth-dependent CTF-corrected projections before back-projection. Increases sub-tomogram averaging resolution by accounting for the varying defocus across thick samples.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Turonova",
+        "year": "2017",
+        "venue": "Journal of Structural Biology",
+        "doi": "10.1016/j.jsb.2017.07.007",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/28743638/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/turonova/novaCTF",
+      "inputs": [
+        "tilt-series stack with per-tilt CTF estimates",
+        "IMOD alignment metadata"
+      ],
+      "outputs": [
+        "3D-CTF-corrected reconstructed tomogram (MRC)"
+      ],
+      "when_to_use": "Pre-STA tomogram reconstruction when 3D-CTF correction is required for sub-4 A subtomogram averages; standard step in many high-resolution in-situ cryo-ET pipelines.",
+      "limitations": "Computationally heavier than 2D-CTF correction; assumes per-tilt CTF parameters are accurately estimated upstream.",
+      "compute": "CPU (multi-threaded).",
+      "license": "GPL-3.0",
+      "integration_targets": [
+        "IMOD",
+        "TOMOMAN/TomoBEAR",
+        "STA workflows (Dynamo, RELION-Tomo)"
+      ],
+      "last_meaningful_update": "Stable; tied to Turonova lab releases.",
+      "verification_notes": "Turonova B, Schur FKM, Wan W, Briggs JAG. JSB 199:187-195 (2017) verified PMID 28743638. | DUP: canonical entry in stage 'data_analysis'.",
+      "canonical_stage": "data_analysis"
+    },
+    {
+      "name": "Patch CTF (cryoSPARC)",
+      "aliases": [
+        "cryoSPARC Patch CTF"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "ctf-estimation",
+      "approach": "Patch-wise CTF estimation across the micrograph that produces a spatially varying defocus map; corresponds operationally to local CTF in Warp/Gctf. Documented in the cryoSPARC guide.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Punjani",
+        "year": "2017",
+        "venue": "Nature Methods",
+        "doi": "10.1038/nmeth.4169",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/28165473/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": null,
+      "inputs": [
+        "motion-corrected micrograph"
+      ],
+      "outputs": [
+        "defocus map, tilt, astigmatism per patch"
+      ],
+      "when_to_use": "When cryoSPARC is the primary processing suite; avoids tool-juggling.",
+      "limitations": "Closed source; subset of details documented in published form.",
+      "compute": "Single GPU.",
+      "license": "cryoSPARC EULA.",
+      "integration_targets": [
+        "cryoSPARC"
+      ],
+      "last_meaningful_update": "cryoSPARC 4.6 / 4.7.",
+      "verification_notes": "Foundational paper Punjani et al. 2017. Patch CTF feature documented in the cryoSPARC guide; not a separately published algorithm."
+    },
+    {
+      "name": "RELION 5 tomography",
+      "aliases": [
+        "relion_tomo",
+        "RELION-5 tomo"
+      ],
+      "type": "hybrid",
+      "modalities": [
+        "cryo-et"
+      ],
+      "stage": "processing",
+      "subtask": "end-to-end cryo-ET image processing pipeline",
+      "approach": "Cryo-ET pipeline within RELION-5 that wraps CTFFIND4 for CTF, IMOD/AreTomo for alignment, and cryoCARE for tomogram denoising; carries the data forward through particle picking, subtomogram averaging, multi-body refinement and Blush-regularised reconstruction to atomic model building (with ModelAngelo).",
+      "architecture": "Wrappers around external tools + Blush regularization (denoising CNN) at the refinement step.",
+      "training_paradigm": "supervised (Blush CNN); none_classical for the wrappers",
+      "training_data": "Blush trained on EMDB half-map pairs; other modules are non-learned wrappers.",
+      "pretrained_weights_available": "yes (Blush, ModelAngelo)",
+      "citation": {
+        "first_author": "Burt",
+        "year": "2024",
+        "venue": "FEBS Open Bio",
+        "doi": "10.1002/2211-5463.13873",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39147729/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/3dem/relion",
+      "inputs": [
+        "raw tilt movies",
+        "tilt angle/mdoc metadata"
+      ],
+      "outputs": [
+        "aligned tilt-series",
+        "tomograms",
+        "subtomogram averages",
+        "atomic models (via ModelAngelo)"
+      ],
+      "when_to_use": "End-to-end cryo-ET in a single open-source package; preferred when wanting tight integration of Blush regularisation and ModelAngelo model building for STA at sub-4 Å.",
+      "limitations": "Heavier installation than standalone tools; performance can lag GPU-only pipelines like Warp 2; CTF wrapper still routes through CTFFIND4.",
+      "compute": "Multi-GPU cluster recommended; storage-heavy.",
+      "license": "GPL-3.0",
+      "integration_targets": [
+        "IMOD",
+        "AreTomo",
+        "cryoCARE",
+        "Blush",
+        "ModelAngelo",
+        "Coot"
+      ],
+      "last_meaningful_update": "Burt et al. 2024 FEBS Open Bio; RELION 5.0 stable 2024-2025.",
+      "verification_notes": "Burt A, Toader B, Warshamanage R, von Kügelgen A, Pyle E, Zivanov J, Kimanius D, Bharat TAM, Scheres SHW. FEBS Open Bio 14(11):1788-1804 (2024). PMID 39147729, DOI 10.1002/2211-5463.13873."
+    },
+    {
+      "name": "RELION MotionCor (own implementation)",
+      "aliases": [
+        "RELION motion correction",
+        "relion_run_motioncorr"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "motion-correction",
+      "approach": "RELION's in-suite re-implementation of the MotionCor2 algorithm (patch-based whole-frame plus local trajectory fitting). Used when running MotionCor2 binaries is undesirable; behaves equivalently for practical purposes.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Zivanov",
+        "year": "2019",
+        "venue": "IUCrJ (Bayesian polishing paper, which describes RELION's motion-correction stack)",
+        "doi": "10.1107/S205225251801463X",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/30713699/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/3dem/relion",
+      "inputs": [
+        "MRC/TIFF movies",
+        "gain reference"
+      ],
+      "outputs": [
+        "motion-corrected micrographs",
+        "shift logs in STAR format"
+      ],
+      "when_to_use": "Inside RELION when an external MotionCor binary is unavailable; gives users a fully integrated, scriptable run.",
+      "limitations": "Slower per micrograph than MotionCor2/3 in some benchmarks; identical algorithmic ceiling.",
+      "compute": "CPU and GPU supported; multi-threaded.",
+      "license": "GPL-2.0",
+      "integration_targets": [
+        "RELION (native)",
+        "Scipion (via plugin)"
+      ],
+      "last_meaningful_update": "RELION 5 release (2024).",
+      "verification_notes": "Implementation distinct from MotionCor2 binary but algorithm follows Zheng 2017; canonical implementation citation is Zivanov 2019 IUCrJ alongside the original Scheres 2012 RELION paper."
+    },
+    {
+      "name": "REST",
+      "aliases": [
+        "REST cryo-ET"
+      ],
+      "type": "ml",
+      "modalities": [
+        "cryo-et"
+      ],
+      "stage": "processing",
+      "subtask": "denoising",
+      "approach": "Supervised translation from low-quality to high-quality density: a 3D CNN learns a mapping where the high-quality target is a sub-tomogram-averaged class average and the low-quality input is the raw extracted sub-tomogram; transfer to the whole tomogram for denoising and missing-wedge compensation.",
+      "architecture": "Custom 3D encoder-decoder with residual blocks.",
+      "training_paradigm": "supervised",
+      "training_data": "Sub-tomogram pairs of (raw, averaged class) for one or several target macromolecules; e.g. nucleosomes in cryo-FIB nuclei sections.",
+      "pretrained_weights_available": false,
+      "citation": {
+        "first_author": "Zhang",
+        "year": "2023",
+        "venue": "Nature Communications",
+        "doi": "10.1038/s41467-023-38539-w",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/37217501/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/Zhang-hn1125/REST",
+      "inputs": [
+        "paired raw + averaged sub-tomograms for training"
+      ],
+      "outputs": [
+        "denoised tomogram revealing per-particle conformations"
+      ],
+      "when_to_use": "When the user has a well-averaged structure for the target macromolecule and wants to inspect per-particle states without explicit STA.",
+      "limitations": "Requires a target structure to define 'clean'; risk of biasing tomograms toward the training class.",
+      "compute": "GPU; 16-24 GB VRAM.",
+      "license": "MIT",
+      "integration_targets": [
+        "RELION-Tomo / Warp tomograms"
+      ],
+      "last_meaningful_update": "2023 publication; repo lightly maintained.",
+      "verification_notes": "Zhang H, Li Y, Liu Y et al. Nat Commun 14:2937 (2023) verified PMID 37217501."
+    },
+    {
+      "name": "Smart EPU AI features (Thermo Fisher)",
+      "aliases": [
+        "Smart EPU AI",
+        "EPU AI"
+      ],
+      "type": "ml",
+      "modalities": [
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "normalization",
+      "approach": "Vendor-internal AI hole picking, ice-thickness classification, and on-the-fly CTF-based rejection inside the Thermo Fisher EPU acquisition software; spans acquisition and early processing. Architecture and training details are proprietary; performance documented in white papers and conference talks.",
+      "architecture": "Proprietary CNN classifiers and detectors (likely ResNet/ViT variants); not publicly disclosed.",
+      "training_paradigm": "supervised",
+      "training_data": "Thermo Fisher internal labeled corpus; not released.",
+      "pretrained_weights_available": false,
+      "citation": {
+        "first_author": null,
+        "year": null,
+        "venue": "Thermo Fisher Scientific product documentation / white papers",
+        "doi": null,
+        "url": "https://www.thermofisher.com/us/en/home/electron-microscopy/products/software-em-3d-vis/epu-software.html"
+      },
+      "source_type": "vendor",
+      "repo": null,
+      "inputs": [
+        "live EPU acquisition feed"
+      ],
+      "outputs": [
+        "scored holes/squares, live CTF-based rejection labels"
+      ],
+      "when_to_use": "Thermo Fisher Krios/Glacios facilities using EPU as the acquisition front-end and wanting automated quality filtering.",
+      "limitations": "Vendor-only; no peer-reviewed validation; not portable across instrument vendors; opaque to external audit.",
+      "compute": "Vendor instrument control PC + GPU.",
+      "license": "Proprietary (Thermo Fisher).",
+      "integration_targets": [
+        "EPU",
+        "Smart Loader AI"
+      ],
+      "last_meaningful_update": "Bundled with EPU 3.x / EPU-D 2024-2025.",
+      "verification_notes": "No peer-reviewed publication; flag as vendor-only in the chapter. White-paper citations exist but are not primary sources."
+    },
+    {
+      "name": "SOFIMA",
+      "aliases": [
+        "sofima"
+      ],
+      "type": "hybrid",
+      "modalities": [
+        "array-tomo",
+        "fib-sem",
+        "sbem",
+        "sstem"
+      ],
+      "stage": "processing",
+      "subtask": "section-alignment",
+      "approach": "Scalable optical-flow-based image montage and alignment for very large EM volumes: dense optical flow estimates correspondences between images, then an elastic-mesh solver regularizes the flow to produce smooth, physically plausible alignment. JAX implementation with GPU acceleration.",
+      "architecture": "Classical optical flow + elastic mesh solver, but implemented in JAX so GPU-accelerated; not strictly a deep network.",
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Janelia / Google",
+        "year": "2024",
+        "venue": "Zenodo (software release; no dedicated journal paper as of 2026-05-18)",
+        "doi": "10.5281/zenodo.10534541",
+        "url": "https://github.com/google-research/sofima"
+      },
+      "source_type": "open-source",
+      "repo": "https://github.com/google-research/sofima",
+      "inputs": [
+        "2D/3D/4D image tiles or volumes (TIFF/Zarr)"
+      ],
+      "outputs": [
+        "aligned, montaged volumes (Zarr)"
+      ],
+      "when_to_use": "Connectomics-scale serial-section EM alignment and FIB-SEM volume registration where TrakEM2/AlignTK do not scale; canonical at Janelia and Google connectomics groups.",
+      "limitations": "No peer-reviewed methods paper at the time of writing; cite the Zenodo release and the project-paper methods sections that use SOFIMA (e.g., Petascale pipeline 2024). Field is shifting toward SOFIMA as the de facto large-volume aligner.",
+      "compute": "GPU acceleration via JAX; multi-node for petascale jobs.",
+      "license": "Apache 2.0",
+      "integration_targets": [
+        "Janelia connectomics pipeline",
+        "neuroglancer / precomputed",
+        "BigStitcher"
+      ],
+      "last_meaningful_update": "Active commits in 2024-2025; Zenodo v0.1 released January 2024.",
+      "verification_notes": "SOFIMA is published as software, not yet as a dedicated method paper. Cite the Zenodo DOI (10.5281/zenodo.10534541) and the Macrina et al. 2024 'Petascale pipeline' or related project papers that document its use. Flag for follow-up: confirm whether a method paper appears 2026-2027."
+    },
+    {
+      "name": "spIsoNet",
+      "aliases": [
+        "sp-IsoNet"
+      ],
+      "type": "ml",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "preferred-orientation and anisotropy correction",
+      "approach": "Self-supervised 3D CNN that uses well-sampled views to recover information in under-sampled Fourier directions, mitigating the preferred-orientation problem in SPA and the missing-wedge in subtomogram averaging. Adds a misalignment-correction module that refines particle poses during iterative refinement.",
+      "architecture": "3D U-Net (IsoNet lineage) with anisotropy-correction and misalignment-correction heads.",
+      "training_paradigm": "self_supervised",
+      "training_data": "Per-dataset; no pretrained model required.",
+      "pretrained_weights_available": "no",
+      "citation": {
+        "first_author": "Liu",
+        "year": "2024",
+        "venue": "Nature Methods",
+        "doi": "10.1038/s41592-024-02505-1",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38645074/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/IsoNet-cryoET/spIsoNet",
+      "inputs": [
+        "consensus 3D map + half-maps (SPA)",
+        "subtomograms + averages (STA)"
+      ],
+      "outputs": [
+        "isotropy-corrected maps",
+        "refined particle poses"
+      ],
+      "when_to_use": "Datasets with strong preferred orientation (membrane proteins on air-water interface) or missing-wedge dominated STA; recommended as a late-stage corrective post-refinement.",
+      "limitations": "Improvements depend on residual signal in under-sampled directions; aggressive use can hallucinate features (use half-map FSC to validate).",
+      "compute": "1 GPU (>=16 GB VRAM); fast compared to cryoDRGN-class methods.",
+      "license": "MIT",
+      "integration_targets": [
+        "RELION",
+        "cryoSPARC (via STAR/CS export)",
+        "M"
+      ],
+      "last_meaningful_update": "Nat Methods publication 2024-11; active maintenance.",
+      "verification_notes": "Liu YT, Zhang H, Wang H, Tao CL, Bi GQ, Zhou ZH. Nat Methods 21(11):2078-2087 (2024). PMID 38645074. Also covers cryo-ET preferred-orientation correction."
+    },
+    {
+      "name": "Summovie",
+      "aliases": [
+        "summovie"
+      ],
+      "type": "classical",
+      "modalities": [
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "dose-weighting",
+      "approach": "Applies the resolution- and dose-dependent exposure filter from Grant & Grigorieff 2015 to a frame stack already aligned (typically by Unblur) and emits a dose-weighted micrograph sum.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Grant",
+        "year": "2015",
+        "venue": "eLife",
+        "doi": "10.7554/eLife.06980",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/26023829/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://grigoriefflab.umassmed.edu/unblur_summovie",
+      "inputs": [
+        "aligned MRC movie",
+        "dose-per-frame, accumulated-dose metadata"
+      ],
+      "outputs": [
+        "dose-weighted sum micrograph (MRC)"
+      ],
+      "when_to_use": "Drop-in dose weighting step when motion correction was performed by another tool that did not apply the filter; commonly used inside cisTEM.",
+      "limitations": "Companion to Unblur; not a motion corrector itself; relies on the original cumulative-dose model.",
+      "compute": "CPU.",
+      "license": "Free academic.",
+      "integration_targets": [
+        "cisTEM",
+        "Frealign",
+        "Scipion"
+      ],
+      "last_meaningful_update": "Maintenance only; superseded operationally by MotionCor2's built-in dose weighting.",
+      "verification_notes": "Same canonical paper as Unblur (Grant & Grigorieff 2015)."
+    },
+    {
+      "name": "TomoSegMemTV",
+      "aliases": [
+        "tomosegmemtv"
+      ],
+      "type": "classical",
+      "modalities": [
+        "cryo-et"
+      ],
+      "stage": "processing",
+      "subtask": "denoising",
+      "approach": "Tensor-voting-based membrane enhancement: anisotropic propagation of local structural orientation information through the tomogram, strengthening membrane-like voxels and bridging gaps; foundational classical pre-processing for membrane segmentation. Not strictly a denoiser but functions as a structure-preserving filter.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Martinez-Sanchez",
+        "year": "2014",
+        "venue": "Journal of Structural Biology",
+        "doi": "10.1016/j.jsb.2014.02.015",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/24625523/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://sites.google.com/site/3demimageprocessing/tomosegmemtv",
+      "inputs": [
+        "cryo-ET tomogram (MRC)"
+      ],
+      "outputs": [
+        "membrane-enhanced tomogram"
+      ],
+      "when_to_use": "Classical baseline before MemBrain-seg; useful on tomograms with structured but noisy membranes; pairs with PySeg.",
+      "limitations": "Parameter-sensitive; MATLAB-based reference implementation; outperformed by ML segmenters on most modern data.",
+      "compute": "CPU (multi-threaded).",
+      "license": "Free academic.",
+      "integration_targets": [
+        "PySeg",
+        "EMAN2 (via scripts)"
+      ],
+      "last_meaningful_update": "Last meaningful release ~2018; primary updates now happen in PySeg.",
+      "verification_notes": "Martinez-Sanchez A, Garcia I, Asano S, Lucic V, Fernandez J-J. JSB 186:49-61 (2014) verified PMID 24625523."
+    },
+    {
+      "name": "Topaz-Denoise",
+      "aliases": [
+        "topaz-denoise",
+        "topaz denoise"
+      ],
+      "type": "ml",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "denoising",
+      "approach": "General-purpose deep denoiser for cryo-EM micrographs (2D) and cryo-ET tomograms (3D); supervised on real even/odd splits and synthetic noise pairs across many EMPIAR datasets; ships pretrained 2D and 3D models that can be applied zero-shot.",
+      "architecture": "2D U-Net (Affine-NN encoder) and 3D U-Net variants.",
+      "training_paradigm": "self_supervised_n2n",
+      "training_data": "Thousands of micrographs across EMPIAR plus in-house data; for 3D, paired even/odd reconstructions from a curated set of tomograms.",
+      "pretrained_weights_available": true,
+      "citation": {
+        "first_author": "Bepler",
+        "year": "2020",
+        "venue": "Nature Communications",
+        "doi": "10.1038/s41467-020-18952-1",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/33060581/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/tbepler/topaz",
+      "inputs": [
+        "MRC micrograph or tomogram"
+      ],
+      "outputs": [
+        "denoised MRC"
+      ],
+      "when_to_use": "Drop-in pretrained denoising for visualization, particle picking aids, and downstream segmentation; particularly useful when paired even/odd realizations are not available.",
+      "limitations": "Models can over-smooth high-frequency biological signal; not validated by downstream FSC for SPA refinement; pretrained corpus may underrepresent membrane proteins or unusual grid types.",
+      "compute": "Single GPU; <=8 GB VRAM for 2D, 16+ GB for 3D.",
+      "license": "GPL-3.0",
+      "integration_targets": [
+        "Topaz (native)",
+        "cryoSPARC import",
+        "Scipion",
+        "RELION",
+        "Warp"
+      ],
+      "last_meaningful_update": "Maintained; recent updates 2023-2024.",
+      "verification_notes": "Bepler T, Kelley K, Noble AJ, Berger B. Nat Commun 11:5208 (2020) verified PMID 33060581 / DOI 10.1038/s41467-020-18952-1. | CORRECTION: Expert flagged the 3D Topaz-Denoise variant as missing. Verification: the 3D mode is in the same Bepler et al. 2020 Nat Commun paper as the 2D mode, not a separate publication. Update existing entry instead of creating a new one.",
+      "approach + verification_notes (add 3D mode)": {
+        "approach_addendum": "Includes a 3D tomogram-denoising mode (Topaz-Denoise-3D) trained for cryo-ET volumes. The 2D and 3D modes share the same Noise2Noise self-supervised paradigm; the 3D variant operates on even/odd-frame half-tomograms.",
+        "verification_notes_addendum": "Bepler T, Kelley K, Noble AJ, Berger B. 'Topaz-Denoise: general deep denoising models for cryo-EM and cryo-ET.' Nat Commun 11:5208 (2020). DOI 10.1038/s41467-020-18952-1. Same Nat Commun paper covers both 2D micrograph and 3D tomogram denoising; the expert gap suggesting a separate Nat Methods publication is incorrect — it is Nat Commun 2020."
+      }
+    },
+    {
+      "name": "TrakEM2",
+      "aliases": [
+        "trakem2"
+      ],
+      "type": "classical",
+      "modalities": [
+        "array-tomo",
+        "sbem",
+        "sstem"
+      ],
+      "stage": "processing",
+      "subtask": "section-alignment",
+      "approach": "Fiji-based serial-section EM montage and alignment: SIFT-based linear alignment followed by elastic alignment with mesh-based non-linear warping to compensate for section deformations. Supports manual proofreading.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Cardona",
+        "year": "2012",
+        "venue": "PLoS ONE",
+        "doi": "10.1371/journal.pone.0038011",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/22723842/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://imagej.net/plugins/trakem2/",
+      "inputs": [
+        "serial-section EM tiles (per section)"
+      ],
+      "outputs": [
+        "aligned EM volume (Fiji/N5/HDF5)"
+      ],
+      "when_to_use": "Classical reference for ssTEM/array-tomography montage and alignment; pre-connectomics workhorse and still used for small-to-medium volumes.",
+      "limitations": "Scales poorly beyond ~teravoxel volumes; superseded by SOFIMA / petascale pipelines for connectomics-scale data.",
+      "compute": "JVM / Fiji; CPU.",
+      "license": "GPLv3",
+      "integration_targets": [
+        "Fiji",
+        "CATMAID export",
+        "BigDataViewer/Big Warp"
+      ],
+      "last_meaningful_update": "Periodic Fiji updates; methodology stable.",
+      "verification_notes": "Cardona A, Saalfeld S, Schindelin J, Arganda-Carreras I, Preibisch S, Longair M, Tomancak P, Hartenstein V, Douglas RJ. PLoS ONE 7:e38011 (2012) verified PMID 22723842."
+    },
+    {
+      "name": "Unblur",
+      "aliases": [
+        "unblur"
+      ],
+      "type": "classical",
+      "modalities": [
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "motion-correction",
+      "approach": "Iterative whole-frame translational alignment of movie frames against running sum; pairs with Summovie for exposure-dependent filtering. Foundational reference for the dose-weighting filter design.",
+      "architecture": null,
+      "training_paradigm": "none_classical",
+      "training_data": null,
+      "pretrained_weights_available": null,
+      "citation": {
+        "first_author": "Grant",
+        "year": "2015",
+        "venue": "eLife",
+        "doi": "10.7554/eLife.06980",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/26023829/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://grigoriefflab.umassmed.edu/unblur_summovie",
+      "inputs": [
+        "MRC dose-fractionated movie",
+        "dose-per-frame metadata"
+      ],
+      "outputs": [
+        "aligned sum (MRC)",
+        "dose-weighted sum via Summovie"
+      ],
+      "when_to_use": "CPU-only motion correction within cisTEM and Frealign workflows; canonical reference for exposure-weighted summation.",
+      "limitations": "Whole-frame only (no per-particle local trajectories); slower than GPU MotionCor on large modern movies.",
+      "compute": "CPU; multi-threaded; no GPU.",
+      "license": "Free academic (Grigorieff Lab terms)",
+      "integration_targets": [
+        "cisTEM",
+        "Frealign",
+        "Scipion"
+      ],
+      "last_meaningful_update": "Folded into cisTEM ~2018; standalone binaries still distributed.",
+      "verification_notes": "Grant & Grigorieff (2015) eLife 4:e06980 verified PMID 26023829 / DOI 10.7554/eLife.06980. The paper introduces both the rotavirus VP6 result and the dose-weighting exposure filter used widely thereafter."
+    },
+    {
+      "name": "Warp",
+      "aliases": [
+        "warp",
+        "warp-em"
+      ],
+      "type": "hybrid",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "motion-correction",
+      "approach": "Real-time preprocessing suite: motion correction with spatiotemporal B-spline deformation grids, joint local CTF estimation, deep-learning micrograph denoising (BoxNet/3D CNN), and deep-learning particle picking (BoxNet). For tilt series, jointly refines per-tilt motion and CTF.",
+      "architecture": "U-Net-style CNNs for picking/denoising (BoxNet); classical optimization for motion and CTF grids.",
+      "training_paradigm": "supervised",
+      "training_data": "Curated EMPIAR micrographs annotated by the authors for picking; denoiser uses paired even/odd frames (Noise2Noise self-supervision).",
+      "pretrained_weights_available": true,
+      "citation": {
+        "first_author": "Tegunov",
+        "year": "2019",
+        "venue": "Nature Methods",
+        "doi": "10.1038/s41592-019-0580-y",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/31591575/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/cramerlab/warp",
+      "inputs": [
+        "raw movies (MRC/TIFF/EER)",
+        "optionally tilt-series MDOC"
+      ],
+      "outputs": [
+        "motion-corrected and dose-weighted micrographs",
+        "CTF estimates",
+        "denoised previews",
+        "picked particle stacks (BoxNet)"
+      ],
+      "when_to_use": "Live and offline preprocessing for both SPA and cryo-ET; widely used when joint optimization of motion and CTF is desired or when M is downstream.",
+      "limitations": "Windows-centric historically (Linux build improved post-2022); BoxNet pretrained models biased toward soluble proteins on holey carbon.",
+      "compute": "Single CUDA GPU (>=8 GB); benefits from 24-48 GB on EER movies.",
+      "license": "GPLv3 (Warp); some downstream M components separately licensed.",
+      "integration_targets": [
+        "RELION",
+        "M",
+        "cryoSPARC import",
+        "Scipion"
+      ],
+      "last_meaningful_update": "WarpTools / Warp 2.x rewrite (2024) brought multi-platform builds and tighter M integration.",
+      "verification_notes": "Tegunov D & Cramer P (2019) Nat Methods 16:1146-1152 verified PMID 31591575. The 2024 WarpTools rewrite is documented in Tegunov et al. preprints; cite the 2019 paper for canonical methodology."
+    },
+    {
+      "name": "Warp 2 / WarpTools",
+      "aliases": [
+        "Warp 2.x",
+        "warpem/warp"
+      ],
+      "type": "hybrid",
+      "modalities": [
+        "cryo-et",
+        "spa"
+      ],
+      "stage": "processing",
+      "subtask": "preprocessing and tomogram reconstruction",
+      "approach": "Major Linux-native rewrite of Warp (2023-2024) providing CLI tools (WarpTools, MTools, MCore) for movie alignment, CTF, particle picking (BoxNet), tomogram reconstruction, and per-particle refinement; includes Noise2Map denoising and tighter integration with M and RELION-5/cryoSPARC.",
+      "architecture": "BoxNet U-Net 2D/3D for picking; classical motion/CTF backbones; Noise2Map (Noise2Noise-style) for denoising.",
+      "training_paradigm": "supervised (BoxNet); self_supervised (Noise2Map)",
+      "training_data": "BoxNet: curated EMPIAR-derived particle annotations; Noise2Map: per-dataset even/odd splits.",
+      "pretrained_weights_available": "yes",
+      "citation": {
+        "first_author": "Tegunov",
+        "year": "2019",
+        "venue": "Nature Methods",
+        "doi": "10.1038/s41592-019-0580-y",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/31591575/"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/warpem/warp",
+      "inputs": [
+        "raw movies/EER",
+        "tilt-series",
+        "STAR metadata"
+      ],
+      "outputs": [
+        "motion-corrected micrographs",
+        "tomograms",
+        "particle picks",
+        "STAR files"
+      ],
+      "when_to_use": "Default Linux preprocessing for cryo-ET and SPA pipelines integrating with M, RELION-5 and cryoSPARC; preferred when wanting a unified CLI/GPU stack on cluster.",
+      "limitations": "No standalone Warp-2 methods paper yet; users reliant on Tegunov 2019 (Warp 1) and Tegunov 2021 (M) for citation; BoxNet generalisation outside training distribution remains an issue.",
+      "compute": "Linux + 1-2 GPUs (>=24 GB VRAM recommended).",
+      "license": "GPL-3.0",
+      "integration_targets": [
+        "M",
+        "RELION 5",
+        "cryoSPARC import",
+        "AreTomo3 (alternative aligner)"
+      ],
+      "last_meaningful_update": "Warp 2.0 released 2024; ongoing maintenance at Genentech / Cramer lab.",
+      "verification_notes": "Original Warp paper: Tegunov D, Cramer P. Nat Methods 16:1146-1152 (2019), PMID 31591575. M paper: Tegunov D et al. Nat Methods 18:186-193 (2021), PMID 33542514. No dedicated Warp 2.0 publication located as of 2026-05; the entry treats Warp 2 as an active fork of the same software family. Update the existing Warp processing entry accordingly."
+    }
+  ]
+}

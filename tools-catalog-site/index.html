@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EM Segmentation Tools — Open Catalog</title>
+<meta name="description" content="An open, searchable catalog of AI/ML and classical tools for segmentation across electron microscopy: SPA, cryo-ET, volume EM, and CLEM.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <h1>EM Segmentation Tools</h1>
+    <p class="tagline">An open, searchable catalog of AI/ML and classical tools for segmentation across electron microscopy.</p>
+    <p class="meta">
+      <span id="meta-tool-count">Loading…</span> ·
+      Version 1.0.0 ·
+      Companion to <em>Kiewisz, 2026, Correlative Light and Electron Microscopy VI</em> ·
+      <a href="#contribute">Contribute</a>
+    </p>
+  </div>
+</header>
+
+<main class="container">
+  <section class="controls" aria-label="Search and filters">
+    <input type="search" id="search" placeholder="Search by tool name, use case, or keyword…" aria-label="Search">
+
+    <div class="filter-row">
+      <div class="filter-group" data-key="category">
+        <span class="filter-label">Category</span>
+        <div class="chips" id="filter-category"></div>
+      </div>
+      <div class="filter-group" data-key="modalities">
+        <span class="filter-label">Modality</span>
+        <div class="chips" id="filter-modality"></div>
+      </div>
+      <div class="filter-group" data-key="type">
+        <span class="filter-label">Approach</span>
+        <div class="chips" id="filter-type"></div>
+      </div>
+      <div class="filter-group" data-key="availability">
+        <span class="filter-label">Availability</span>
+        <div class="chips" id="filter-availability"></div>
+      </div>
+    </div>
+
+    <div class="results-bar">
+      <span id="results-count">—</span>
+      <button id="clear-filters" class="link-btn">Clear all filters</button>
+    </div>
+  </section>
+
+  <section class="table-section">
+    <table id="tools-table">
+      <thead>
+        <tr>
+          <th data-sort="name" class="sortable">Tool</th>
+          <th data-sort="category" class="sortable">Category</th>
+          <th data-sort="task" class="sortable">Task</th>
+          <th data-sort="modalities">Modality</th>
+          <th data-sort="type" class="sortable">Approach</th>
+          <th data-sort="availability" class="sortable">Availability</th>
+          <th data-sort="citation.year" class="sortable">Citation</th>
+        </tr>
+      </thead>
+      <tbody id="tools-tbody"></tbody>
+    </table>
+    <p id="empty-state" class="empty-state" hidden>No tools match the current filters. Try clearing some.</p>
+  </section>
+</main>
+
+<dialog id="detail-modal">
+  <button class="modal-close" aria-label="Close">×</button>
+  <div id="modal-body"></div>
+</dialog>
+
+<footer class="site-footer">
+  <div class="container">
+    <h2 id="contribute">Contribute</h2>
+    <p>This catalog is community-maintained. To add a new tool, update an entry, or correct a mistake: open a pull request on the GitHub repository, adding to or editing <code>data/tools.json</code>. See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> for the entry schema.</p>
+
+    <h2>Citation</h2>
+    <p>If you use this catalog in published work, please cite the companion chapter:</p>
+    <blockquote>Kiewisz, R. (2026). Segmentation in Electron Microscopy: A Tools Overview. In <em>Correlative Light and Electron Microscopy VI</em>, Methods in Cell Biology. Elsevier.</blockquote>
+
+    <h2>License</h2>
+    <p>Data (the tool catalog): <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a>. Code (the site itself): <a href="LICENSE">MIT</a>.</p>
+
+    <p class="footer-meta">Generated 2026-05-19. <a href="data/tools.json">View raw JSON</a>.</p>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+</body>
+</html>
