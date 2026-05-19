@@ -1,0 +1,69 @@
+name: Deploy to GitHub Pages
+
+# Deploys the static catalog (held in tools-catalog-site/) to GitHub Pages
+# on every push to main, and on manual dispatch from the Actions tab.
+# Uses the Actions-based Pages flow — configure Settings → Pages → Source:
+# "GitHub Actions" once, before the first run.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools-catalog-site/**"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+# Required permissions for the Pages deploy action.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deploy at a time. In-flight deploys complete before the next
+# starts; new pushes queue rather than cancel.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build site artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate catalog JSON
+        # Fail-fast: if tools.json is broken, deploy is skipped.
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          with open("tools-catalog-site/data/tools.json") as f:
+              data = json.load(f)
+          if data.get("tool_count") != len(data.get("tools", [])):
+              print(f"ERROR: declared tool_count ({data.get('tool_count')}) != actual count ({len(data.get('tools', []))})")
+              sys.exit(1)
+          print(f"OK: {len(data['tools'])} tools, version {data.get('version', '?')}")
+          PY
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Only the site subdirectory is uploaded — the rest of the repo
+          # (chapter drafts, knowledge-base sources, figures) is not on Pages.
+          path: tools-catalog-site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

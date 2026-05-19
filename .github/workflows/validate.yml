@@ -1,0 +1,101 @@
+name: Validate catalog
+
+# Runs on pull requests touching the data file, the site code, or the
+# workflows themselves. Designed to give contributors fast, actionable
+# feedback before a maintainer reviews the PR.
+
+on:
+  pull_request:
+    paths:
+      - "tools-catalog-site/data/tools.json"
+      - "tools-catalog-site/assets/**"
+      - "tools-catalog-site/index.html"
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate JSON, JS, and HTML
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node (for JS parse check)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate tools.json schema
+        run: |
+          python3 - <<'PY'
+          import json, sys
+
+          REQUIRED_TOP = {"version", "generated", "license", "tool_count", "tools"}
+          REQUIRED_TOOL = {"name", "category", "task", "type", "availability", "citation"}
+          ALLOWED_TYPES = {"ml", "classical", "hybrid", "infrastructure"}
+          ALLOWED_AVAILABILITY = {"Open", "Vendor", "Commercial"}
+
+          with open("tools-catalog-site/data/tools.json") as f:
+              data = json.load(f)
+
+          errors = []
+
+          missing_top = REQUIRED_TOP - set(data.keys())
+          if missing_top:
+              errors.append(f"top-level: missing keys {sorted(missing_top)}")
+
+          tools = data.get("tools", [])
+          if data.get("tool_count") != len(tools):
+              errors.append(f"tool_count ({data.get('tool_count')}) != actual count ({len(tools)})")
+
+          seen_names = set()
+          for i, t in enumerate(tools):
+              name = t.get("name", f"<unnamed tool[{i}]>")
+
+              missing = REQUIRED_TOOL - set(t.keys())
+              if missing:
+                  errors.append(f"{name}: missing fields {sorted(missing)}")
+
+              if name in seen_names:
+                  errors.append(f"{name}: duplicate name (first seen earlier in array)")
+              else:
+                  seen_names.add(name)
+
+              tp = t.get("type")
+              if tp and tp not in ALLOWED_TYPES:
+                  errors.append(f"{name}: type '{tp}' not in {sorted(ALLOWED_TYPES)}")
+
+              av = t.get("availability")
+              if av and av not in ALLOWED_AVAILABILITY:
+                  errors.append(f"{name}: availability '{av}' not in {sorted(ALLOWED_AVAILABILITY)}")
+
+              # Citation: tools without a citation must still have the field present.
+              cit = t.get("citation")
+              if cit is None:
+                  errors.append(f"{name}: citation is null (use empty object {{}} or fill it in)")
+
+          if errors:
+              print("Validation failed:")
+              for e in errors[:50]:
+                  print(f"  - {e}")
+              if len(errors) > 50:
+                  print(f"  ... and {len(errors) - 50} more")
+              sys.exit(1)
+
+          print(f"OK: {len(tools)} tools validated, all required fields present, no duplicate names.")
+          PY
+
+      - name: Check JS parses
+        run: node -c tools-catalog-site/assets/script.js
+
+      - name: Check HTML is well-formed
+        run: |
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          class P(HTMLParser):
+              def error(self, msg): raise ValueError(msg)
+          with open("tools-catalog-site/index.html") as f:
+              P().feed(f.read())
+          print("OK: index.html parses cleanly.")
+          PY

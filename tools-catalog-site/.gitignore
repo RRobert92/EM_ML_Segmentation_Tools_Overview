@@ -1,0 +1,15 @@
+# Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python (in case contributors run validation scripts)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Logs / scratch
+*.log
+.tmp/
