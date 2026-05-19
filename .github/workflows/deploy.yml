@@ -2,8 +2,8 @@ name: Deploy to GitHub Pages
 
 # Deploys the static catalog (held in tools-catalog-site/) to GitHub Pages
 # on every push to main, and on manual dispatch from the Actions tab.
-# Uses the Actions-based Pages flow — configure Settings → Pages → Source:
-# "GitHub Actions" once, before the first run.
+# The configure-pages step has enablement:true, so Pages is auto-enabled on
+# first run — no manual setup required in repo Settings.
 
 on:
   push:
@@ -12,6 +12,12 @@ on:
       - "tools-catalog-site/**"
       - ".github/workflows/deploy.yml"
   workflow_dispatch:
+
+# Workflow-level env: opt into Node.js 24 for all JavaScript-based actions.
+# Node 20 is deprecated on GitHub Actions runners from 2026-06-02; setting
+# this now silences the warning and pre-validates compatibility.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 # Required permissions for the Pages deploy action.
 permissions:
@@ -48,6 +54,10 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          # Auto-enable Pages on the repo if it isn't yet — avoids the
+          # "Get Pages site failed: Not Found" error on a fresh repo.
+          enablement: true
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
