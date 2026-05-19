@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "generated": "2026-05-19",
   "license": "CC-BY-4.0",
-  "tool_count": 79,
+  "tool_count": 82,
   "tools": [
     {
       "name": "3DCT",
@@ -1731,21 +1731,24 @@
       "verification_notes": "PMC11528043; verified."
     },
     {
-      "name": "Template matching (RELION / cryoSPARC)",
-      "raw_name": "Template matching (RELION/cryoSPARC built-ins)",
-      "aliases": [],
+      "name": "Reference-based auto-picking (RELION / cryoSPARC)",
+      "raw_name": "Reference-based auto-picking (RELION / cryoSPARC)",
+      "aliases": [
+        "RELION auto-picking",
+        "cryoSPARC template picker"
+      ],
       "category": "Particle picking",
       "task": "SPA picking",
       "modalities": [
         "spa"
       ],
       "type": "classical",
-      "approach": "2D cross-correlation against a (low-pass-filtered) 2D template; picks local maxima above threshold.",
+      "approach": "Cross-correlate 2D class averages (from a small hand-picked seed set) with each micrograph; peaks above a threshold become particles. The templates are 2D projections, not the full 3D template-matching workflow used in cryo-ET. RELION supports SPA and subtomogram averaging; cryoSPARC is SPA-only.",
       "architecture": "Classical FFT-based correlation",
       "training_paradigm": "none_classical",
       "training_data": "n/a",
-      "when_to_use": "Required when a high-quality 2D average is available; still the default for some workflows in RELION/cryoSPARC.",
-      "limitations": "Template bias (Einstein-from-noise risk if threshold too low); poor performance on small/low-contrast particles.",
+      "when_to_use": "Use when a high-quality 2D class average from the same or a closely related sample is already available — for example, when re-picking a known structure on a new dataset. For modern high-resolution 2D template matching, see cisTEM 2DTM instead.",
+      "limitations": "Template bias (Einstein-from-noise risk if threshold is too low); poor performance on small/low-contrast particles; not the canonical 2D template matching workflow — that is now cisTEM 2DTM. cryoSPARC is closed-source (open-source for academic use under EULA).",
       "compute": "CPU or GPU; fast",
       "citation": {
         "first_author": "Scheres, Sjors H. W.",
@@ -2755,6 +2758,140 @@
       "source_type": "peer-reviewed",
       "pretrained_weights": "yes",
       "verification_notes": "eLife 2020;9:e57613; verified."
+    },
+    {
+      "name": "cisTEM 2DTM",
+      "aliases": [
+        "cisTEM 2D template matching",
+        "match_template (cisTEM)"
+      ],
+      "type": "classical",
+      "modalities": [
+        "spa",
+        "cryo-et"
+      ],
+      "stage": "segmentation",
+      "subtask": "spa-picking",
+      "approach": "2D template matching in cisTEM: generate 2D projections of an atomic model at high angular sampling, compute normalised cross-correlation with each micrograph, and detect peaks above a statistical threshold derived from the noise floor. Sensitivity reaches single-molecule detection inside cellular cryo-EM data.",
+      "architecture": "Classical TM with sophisticated noise modelling and high angular sampling",
+      "training_paradigm": "none",
+      "training_data": "Not learned; requires a high-quality atomic-model-derived template",
+      "pretrained_weights_available": "n/a",
+      "citation": {
+        "first_author": "Lucas, Bronwyn A.",
+        "surname": "Lucas",
+        "year": 2021,
+        "venue": "eLife",
+        "doi": "10.7554/eLife.68946",
+        "url": "https://elifesciences.org/articles/68946",
+        "short": "Lucas 2021"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://github.com/timothygrant80/cisTEM",
+      "inputs": "Cryo-EM micrographs (SPA or cryo-ET projections); atomic model for template",
+      "outputs": "Detected particle positions with statistical significance values",
+      "when_to_use": "The modern reference for 2D template matching at high resolution. Use when you have an atomic model of the target and want statistically rigorous detection — including single-molecule localisation in cellular cryo-EM data. Now more popular than RELION/cryoSPARC reference-based picking for TM workflows.",
+      "limitations": "Requires a high-quality atomic-model template; compute-heavy at high angular sampling; template bias if the atomic model is wrong. Less useful for de novo discovery than ML pickers like TomoTwin.",
+      "compute": "Single GPU or CPU cluster; angular sampling drives cost",
+      "license": "open-source (cisTEM)",
+      "integration_targets": [
+        "cisTEM",
+        "standalone"
+      ],
+      "last_meaningful_update": "Active 2021-2026",
+      "verification_notes": "Lucas, Himes, Grigorieff 2021 eLife — verify exact author list and year before submission.",
+      "category": "Particle picking",
+      "task": "SPA picking",
+      "availability": "Open",
+      "pretrained_weights": "n/a"
+    },
+    {
+      "name": "EMPIAR",
+      "aliases": [
+        "Electron Microscopy Public Image Archive"
+      ],
+      "type": "infrastructure",
+      "modalities": [
+        "spa",
+        "cryo-et",
+        "fib-sem",
+        "sbem",
+        "sstem",
+        "vem",
+        "all microscopy"
+      ],
+      "stage": "cross-stage",
+      "subtask": "raw-data-archive",
+      "approach": "Public archive of raw EM image data hosted by EMBL-EBI. Hosts SPA micrographs, cryo-ET tilt series, vEM volumes, and pre-publication datasets used to validate published structures.",
+      "training_paradigm": "n/a",
+      "training_data": "n/a",
+      "pretrained_weights_available": "n/a",
+      "citation": {
+        "first_author": "Iudin, Andrii",
+        "surname": "Iudin",
+        "year": 2016,
+        "venue": "Nature Methods",
+        "doi": "10.1038/nmeth.3806",
+        "url": "https://www.ebi.ac.uk/empiar/",
+        "short": "Iudin 2016"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://www.ebi.ac.uk/empiar/",
+      "inputs": "Submitted EM datasets (raw images, micrographs, tilt series)",
+      "outputs": "Searchable archive of EM data with stable accession numbers",
+      "when_to_use": "Whenever ML training, benchmarking, or method validation needs publicly available raw EM data with provenance. The primary substrate for any EM-domain pretraining beyond the curated subset in CEM500K.",
+      "limitations": "Annotation density varies — many datasets are raw images without segmentation labels. Curation quality depends on the depositor.",
+      "compute": "n/a (data resource)",
+      "license": "varies per dataset; mostly CC-BY",
+      "integration_targets": [],
+      "last_meaningful_update": "Continuously maintained",
+      "verification_notes": "Iudin et al. 2016 Nat Methods 13:387–388. Verify full author list before submission.",
+      "category": "Training data & infrastructure",
+      "task": "Pretraining datasets",
+      "availability": "Open",
+      "pretrained_weights": "n/a"
+    },
+    {
+      "name": "EMDB",
+      "aliases": [
+        "Electron Microscopy Data Bank"
+      ],
+      "type": "infrastructure",
+      "modalities": [
+        "spa",
+        "cryo-et",
+        "all microscopy"
+      ],
+      "stage": "cross-stage",
+      "subtask": "reconstructed-map-archive",
+      "approach": "Public archive of reconstructed 3D EM density maps and segmentations hosted by EMBL-EBI and RCSB. Companion to the PDB for cryo-EM and cryo-ET-derived structures.",
+      "training_paradigm": "n/a",
+      "training_data": "n/a",
+      "pretrained_weights_available": "n/a",
+      "citation": {
+        "first_author": "Lawson, Catherine L.",
+        "surname": "Lawson",
+        "year": 2024,
+        "venue": "Nucleic Acids Research",
+        "doi": "10.1093/nar/gkad1019",
+        "url": "https://www.ebi.ac.uk/emdb/",
+        "short": "Lawson 2024"
+      },
+      "source_type": "peer-reviewed",
+      "repo": "https://www.ebi.ac.uk/emdb/",
+      "inputs": "Reconstructed EM maps and tomograms",
+      "outputs": "Searchable archive with stable EMD accessions; cross-links to PDB",
+      "when_to_use": "Whenever a published cryo-EM structure or tomogram needs to be located, re-analysed, or used to validate a method. For segmentation work specifically, EMDB hosts many cryo-ET tomograms with associated annotations.",
+      "limitations": "Maps are reconstructed and post-processed — raw data is in EMPIAR. Annotation/segmentation coverage of tomograms is uneven.",
+      "compute": "n/a (data resource)",
+      "license": "varies per deposition",
+      "integration_targets": [],
+      "last_meaningful_update": "Continuously maintained",
+      "verification_notes": "Lawson et al. 2024 Nucleic Acids Research (NAR Database Issue). Verify exact citation.",
+      "category": "Training data & infrastructure",
+      "task": "Pretraining datasets",
+      "availability": "Open",
+      "pretrained_weights": "n/a"
     }
   ]
 }

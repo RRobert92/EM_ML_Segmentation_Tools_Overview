@@ -2,9 +2,23 @@
 
 Thank you for considering a contribution. This catalog is community-maintained and benefits from corrections, additions, and updates.
 
+## Catalog scope
+
+This catalog covers tools whose primary function is one of the following:
+
+- **Picking** (locating macromolecules in 2D micrographs or 3D tomograms)
+- **Segmentation** (membranes, organelles, cells, filaments, vesicles, neurons, synapses)
+- **CLEM registration** (aligning LM features to EM features)
+- **Preprocessing immediately adjacent to segmentation** (denoising, missing-wedge correction)
+- **Training data, model zoos, and shared infrastructure** that enable the above
+
+**Out of scope:** tools whose primary function is tilt-series alignment, tomographic reconstruction, motion correction, CTF estimation, refinement, or model building. The exceptions are tools that bundle one of these functions with a picker or segmenter (Warp is in scope because of BoxNet; IMOD/eTomo and AreTomo are out of scope because they are tilt-series alignment tools without an ML picking/segmentation component).
+
+If you think a tool should be in scope and isn't, open an issue rather than a PR — we'll discuss case by case.
+
 ## What contributions we accept
 
-- **New tools** that fit the catalog's scope: AI/ML or classical tools for segmentation (broadly construed: picking, dense segmentation, registration, denoising as preprocessing, training infrastructure) across single-particle cryo-EM, cryo-ET, volume EM, and CLEM.
+- **New tools** that fit the scope above.
 - **Corrections** to existing entries: wrong author, wrong year, wrong venue, broken DOI, outdated when-to-use guidance.
 - **Annotations**: limitations the original entry missed, new use cases, deprecation notes.
 - **Schema improvements**: new fields that would help downstream consumers (with discussion in an issue first).

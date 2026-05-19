@@ -2,7 +2,7 @@
 
 *Companion table to the chapter, organised hierarchically by task. To find a tool: pick the section that matches what you want to do, then choose within it. Each row gives the tool, the modalities it supports, its computational approach (ML / Classical / Hybrid / Infrastructure), when it is the appropriate choice, its availability (Open / Commercial / Vendor), and a short citation key. Full bibliographic records are in `chapter-references.md`.*
 
-*Total entries: 79. Within each subsection, ML tools come first, then hybrid, then classical, sorted alphabetically. Tools cited in the chapter body are discussed there; the table also includes historical baselines and specialised tools mentioned only in passing. Generated 2026-05-19.*
+*Total entries: 82. Within each subsection, ML tools come first, then hybrid, then classical, sorted alphabetically. Generated 2026-05-19.*
 
 ---
 
@@ -10,7 +10,7 @@
 
 **§1 Particle picking — locating macromolecules in images**
 
-- §1.1 SPA particle picking (in 2D micrographs) — 18 tools
+- §1.1 SPA particle picking (in 2D micrographs) — 19 tools
 - §1.2 Cryo-ET macromolecule localization (in 3D tomograms) — 12 tools
 
 **§2 Cryo-ET segmentation — labelling features inside tomograms**
@@ -41,7 +41,7 @@
 
 **§7 Training data and infrastructure**
 
-- §7.1 Pretraining datasets and shared infrastructure — 4 tools
+- §7.1 Pretraining datasets, archives, and shared infrastructure — 6 tools
 
 ---
 
@@ -67,8 +67,9 @@
 | UPicker | SPA | ML | When labelled data is scarce and large pools of unlabelled micrographs exist. | Open | Wang 2024 |
 | Warp / BoxNet | cryo-ET, SPA | ML | Real-time on-the-fly picking integrated with motion correction and CTF; in the cryo-ET version, BoxNet variants apply to 2D projections. | Open | Tegunov 2019 |
 | APPLE-picker | SPA | Classical | When you want a no-training picker with predictable behavior; baseline for SPA picking comparison. | Open | Heimowitz 2018 |
+| cisTEM 2DTM | SPA, cryo-ET | Classical | The modern reference for 2D template matching at high resolution. Use when you have an atomic model of the target and want statistically rigorous d... | Open | Lucas 2021 |
 | Gautomatch | SPA | Classical | When templates available and GPU CC desired; long the default first-pass picker before crYOLO/Topaz era. | Open | Zhang, citation unverified |
-| Template matching (RELION / cryoSPARC) | SPA | Classical | Required when a high-quality 2D average is available; still the default for some workflows in RELION/cryoSPARC. | Open | Scheres 2015 |
+| Reference-based auto-picking (RELION / cryoSPARC) | SPA | Classical | Use when a high-quality 2D class average from the same or a closely related sample is already available — for example, when re-picking a known stru... | Open | Scheres 2015 |
 
 ### §1.2 Cryo-ET macromolecule localization (in 3D tomograms)
 
@@ -199,12 +200,14 @@
 
 ## §7 Training data and infrastructure
 
-### §7.1 Pretraining datasets and shared infrastructure
+### §7.1 Pretraining datasets, archives, and shared infrastructure
 
 | Tool | Modality | Approach | When to use | Availability | Citation |
 |---|---|---|---|---|---|
 | CEM500K | FIB-SEM, SBEM, SEM, ssTEM | ML | When fine-tuning a vEM segmentation network with limited domain labels; canonical EM-domain pretraining. | Open | Conrad 2021 |
 | BioImage Model Zoo | all | Infra | Anywhere a pretrained vEM / cryo-EM segmentation or denoising model needs to be shared or consumed across heterogeneous user-facing tools; reproduc... | Open | Ouyang 2022 |
 | CryoET Data Portal | cryo-ET | Infra | Any 2024-2026 cryo-ET ML project that needs training data, benchmark splits, or community baselines; reference resource for chapter discussion of d... | Open | Ermel 2024 |
+| EMDB | SPA, cryo-ET, all | Infra | Whenever a published cryo-EM structure or tomogram needs to be located, re-analysed, or used to validate a method. For segmentation work specifical... | Open | Lawson 2024 |
+| EMPIAR | SPA, cryo-ET, FIB-SEM, SBEM, ssTEM, vEM, all | Infra | Whenever ML training, benchmarking, or method validation needs publicly available raw EM data with provenance. The primary substrate for any EM-dom... | Open | Iudin 2016 |
 | ZeroCostDL4Mic | all | Infra | Lab-scale training of segmentation/denoising networks when no GPU cluster is available; first stop for users adopting DL in vEM/CLEM. | Open | von Chamier 2021 |
 

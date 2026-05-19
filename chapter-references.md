@@ -1,10 +1,10 @@
 # References
 
-*Draft reference list for the segmentation chapter. Author-year style. **Full author lists and paper titles must be added before submission** — the entries below are first-author + year + tool name (used as a stand-in for the paper title) + venue + DOI, derived from the project knowledge base. Two-author papers should appear as 'Author1 and Author2'; check each entry currently shown as 'X et al.' against the original paper.*
+*Draft reference list for the segmentation chapter. Author-year style. **Full author lists and paper titles must be added before submission** — entries are first-author + year + tool name (used as a stand-in for the title) + venue + DOI, derived from the project knowledge base. Two-author papers should appear as 'Author1 and Author2'; check each 'X et al.' entry against the original paper.*
 
-*Preprints are noted in the venue field; refresh before submission. Vendor tools without peer-reviewed citations (Amira, EPU, Tomo 5, etc.) are not included in this list — they should be cited by vendor URL in a separate footnote section.*
+*Preprints are noted in the venue field; refresh before submission. Vendor tools without peer-reviewed citations (Amira, EPU, Tomo 5, etc.) are not included; they should be cited by vendor URL in a separate footnote section.*
 
-*Total references: 56. Generated 2026-05-19.*
+*Total references: 59. Generated 2026-05-19.*
 
 ---
 
@@ -31,6 +31,7 @@
 - Himes et al. (2018). emClarity. *Nature Methods*. doi:10.1038/s41592-018-0167-z
 - Hrabe et al. (2012). PyTOM. *Journal of Structural Biology*. doi:10.1016/j.jsb.2011.12.003
 - Isensee et al. (2021). nnU-Net. *Nature Methods*. doi:10.1038/s41592-020-01008-z
+- Iudin et al. (2016). EMPIAR. *Nature Methods*. doi:10.1038/nmeth.3806
 - Khosrozadeh et al. (2025). CryoVesNet. *Journal of Cell Biology*. doi:10.1083/jcb.202402169
 - Kiewisz et al. (2024). TARDIS-EM. *bioRxiv (preprint, v2)*. doi:10.1101/2024.12.19.629196
 - Kirillov et al. (2023). Segment Anything Model (SAM). *ICCV (Proc. IEEE/CVF)*.
@@ -38,8 +39,10 @@
 - Lamm et al. (2022). MemBrain-pick. *Computer Methods and Programs in Biomedicine*. doi:10.1016/j.cmpb.2022.107002
 - Lamm et al. (2024). MemBrain-seg. *bioRxiv (preprint)*. doi:10.1101/2024.01.05.574336
 - Last et al. (2024). Ais. *eLife*. doi:10.7554/eLife.98552
+- Lawson et al. (2024). EMDB. *Nucleic Acids Research*. doi:10.1093/nar/gkad1019
 - Liu et al. (2022). IsoNet. *Nature Communications*. doi:10.1038/s41467-022-33957-8
 - Liu et al. (2024). DeepETPicker. *Nature Communications*. doi:10.1038/s41467-024-46041-0
+- Lucas et al. (2021). cisTEM 2DTM. *eLife*. doi:10.7554/eLife.68946
 - Martinez-Sanchez et al. (2014). TomoSegMemTV. *Journal of Structural Biology*. doi:10.1016/j.jsb.2014.02.015
 - Martinez-Sanchez et al. (2020). PySeg. *Nature Methods*. doi:10.1038/s41592-019-0675-5
 - Moebel et al. (2021). DeepFinder. *Nature Methods*. doi:10.1038/s41592-021-01275-4
@@ -50,7 +53,7 @@
 - Paul-Gilloteaux et al. (2017). ec-CLEM. *Nature Methods*. doi:10.1038/nmeth.4170
 - Ravi et al. (2024). SAM 2. *ICLR (arXiv 2408.00714)*.
 - Rice et al. (2023). TomoTwin. *Nature Methods*. doi:10.1038/s41592-023-01878-z
-- Scheres (2015). RELION template matching. *Journal of Structural Biology*. doi:10.1016/j.jsb.2014.11.010
+- Scheres (2015). Reference-based auto-picking (RELION / cryoSPARC). *Journal of Structural Biology*. doi:10.1016/j.jsb.2014.11.010
 - Schmidt et al. (2018). Stardist. *MICCAI*. doi:10.1007/978-3-030-00934-2_30
 - Seifert et al. (2020). DeepCLEM. *F1000Research*. doi:10.12688/f1000research.27158.2
 - Serra Lleti et al. (2023). CLEMSite. *Journal of Cell Biology*. doi:10.1083/jcb.202209127
