@@ -1,0 +1,36 @@
+name: Validate catalog
+
+on:
+  pull_request:
+    paths:
+      - "data/tools.json"
+      - "assets/**"
+      - "index.html"
+      - "scripts/**"
+      - ".github/workflows/**"
+  push:
+    branches: [main]
+    paths:
+      - "data/tools.json"
+      - "assets/**"
+      - "scripts/**"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Validate tools.json structure
+        run: python3 scripts/validate_tools.py
+
+      - name: Syntax-check the site JS
+        run: |
+          node --check assets/search-core.js
+          node --check assets/script.js
+
+      - name: Run search unit tests
+        run: node scripts/test-search.js

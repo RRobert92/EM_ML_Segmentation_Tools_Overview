@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "📖 Catalog & contribution guide"
+    url: https://github.com/RRobert92/EM_ML_Segmentation_Tools_Overview/blob/main/CONTRIBUTING.md
+    about: "How entries are structured and reviewed, and how to open a pull request directly if you prefer."
+  - name: "💬 Question or discussion"
+    url: https://github.com/RRobert92/EM_ML_Segmentation_Tools_Overview/discussions
+    about: "Not sure if a tool belongs, or want to discuss the taxonomy? Start a discussion."

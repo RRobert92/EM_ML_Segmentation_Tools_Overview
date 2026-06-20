@@ -1,0 +1,234 @@
+name: "➕ Add a new tool"
+description: "Propose a new tool for the EM segmentation catalog. No git required — a maintainer reviews every submission."
+title: "[New tool] <tool name>"
+labels: ["tool-submission", "new-tool"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing! Fill in what you can — required fields are marked.
+        A maintainer will review and, once approved, your entry is added to `data/tools.json` automatically.
+        If you authored or co-authored the tool, please say so in the disclosure box at the bottom.
+
+  - type: input
+    id: name
+    attributes:
+      label: Tool name
+      placeholder: "e.g. TARDIS-EM"
+    validations:
+      required: true
+
+  - type: input
+    id: aliases
+    attributes:
+      label: Aliases / other names
+      description: "Comma-separated. Include package names, napari plugin names, etc."
+      placeholder: "TARDIS, tardis-em, napari-tardis-em"
+
+  - type: dropdown
+    id: categories
+    attributes:
+      label: Category (stage in the pipeline)
+      description: "Select all that apply."
+      multiple: true
+      options:
+        - Particle picking
+        - Cryo-ET segmentation
+        - Volume EM segmentation
+        - CLEM registration
+        - Preprocessing
+        - General-purpose
+        - Training data & infrastructure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tasks
+    attributes:
+      label: Task(s)
+      description: "What does it actually do? Select all that apply."
+      multiple: true
+      options:
+        - SPA particle picking
+        - Cryo-ET particle localization
+        - Membrane segmentation
+        - Filament segmentation
+        - Organelle segmentation
+        - Connectomics / neuron tracing
+        - Foundation / general segmentation
+        - Denoising
+        - Missing-wedge correction
+        - CLEM correlation
+        - CLEM registration
+        - Datasets & infrastructure
+        - Commercial platform
+    validations:
+      required: true
+
+  - type: dropdown
+    id: modalities
+    attributes:
+      label: Modalities
+      description: "Which imaging modalities does it support? Select all that apply."
+      multiple: true
+      options:
+        - SPA
+        - cryo-ET
+        - STA
+        - FIB-SEM
+        - SBEM
+        - ssTEM
+        - vEM
+        - SEM
+        - array tomography
+        - CLEM
+        - cryo-CLEM
+        - iFLM
+        - LM
+        - EM (general)
+        - all microscopy
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Approach
+      options:
+        - ml
+        - classical
+        - hybrid
+        - infrastructure
+    validations:
+      required: true
+
+  - type: textarea
+    id: approach
+    attributes:
+      label: Approach (what it does, technically)
+      description: "1–3 sentences. The model class / algorithm and how it produces its output."
+      placeholder: "Two-stage instance segmentation: a transformer produces semantic masks of filaments/membranes; a geometric model resolves instances…"
+    validations:
+      required: true
+
+  - type: input
+    id: architecture
+    attributes:
+      label: Architecture (if ML)
+      placeholder: "Transformer encoder + geometric post-processing; U-Net; CNN; ViT…"
+
+  - type: dropdown
+    id: training_paradigm
+    attributes:
+      label: Training paradigm
+      options:
+        - supervised
+        - self-supervised
+        - weakly-supervised
+        - unsupervised
+        - foundation / pretrained
+        - none_classical
+        - not applicable
+
+  - type: textarea
+    id: training_data
+    attributes:
+      label: Training data
+      description: "What was it trained on? Datasets, scale, whether pretrained weights ship."
+
+  - type: textarea
+    id: when_to_use
+    attributes:
+      label: When to use
+      description: "The practical recommendation — when should someone reach for this tool?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: limitations
+    attributes:
+      label: Limitations / failure modes
+    validations:
+      required: true
+
+  - type: input
+    id: compute
+    attributes:
+      label: Compute
+      placeholder: "GPU recommended; single-workstation inference; CPU-only; HPC…"
+
+  - type: input
+    id: repo
+    attributes:
+      label: Repository / homepage URL
+      placeholder: "https://github.com/org/tool"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: availability
+    attributes:
+      label: Availability
+      options:
+        - Open
+        - Commercial
+        - Academic-only
+        - Vendor
+    validations:
+      required: true
+
+  - type: dropdown
+    id: source_type
+    attributes:
+      label: Source type
+      options:
+        - peer-reviewed
+        - preprint
+        - software-only
+        - dataset
+        - commercial
+
+  - type: input
+    id: citation_first_author
+    attributes:
+      label: Citation — first author
+      placeholder: "Kiewisz, R."
+    validations:
+      required: true
+
+  - type: input
+    id: citation_year
+    attributes:
+      label: Citation — year
+      placeholder: "2024"
+    validations:
+      required: true
+
+  - type: input
+    id: citation_venue
+    attributes:
+      label: Citation — venue
+      placeholder: "bioRxiv (preprint, v2)"
+
+  - type: input
+    id: citation_doi
+    attributes:
+      label: Citation — DOI
+      placeholder: "10.1101/2024.12.19.629196"
+
+  - type: input
+    id: citation_url
+    attributes:
+      label: Citation — URL
+      placeholder: "https://www.biorxiv.org/content/10.1101/2024.12.19.629196v2"
+
+  - type: checkboxes
+    id: disclosure
+    attributes:
+      label: Author disclosure
+      options:
+        - label: "I am an author or co-author of this tool."
+        - label: "I have checked this tool is not already in the catalog."
+          required: true
+        - label: "The information above is accurate to the best of my knowledge."
+          required: true

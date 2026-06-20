@@ -1,0 +1,61 @@
+name: "✏️ Correct / update an existing tool"
+description: "Fix a wrong author, year, DOI, modality, task tag, or any other detail of a tool already in the catalog."
+title: "[Correction] <tool name>: <what's wrong>"
+labels: ["tool-submission", "correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Spotted something wrong? Tell us which tool and what should change. A maintainer will verify and apply it.
+
+  - type: input
+    id: tool_name
+    attributes:
+      label: Which tool?
+      placeholder: "e.g. Amira"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: field
+    attributes:
+      label: What needs fixing?
+      multiple: true
+      options:
+        - Name / aliases
+        - Category
+        - Task tags
+        - Modalities
+        - Approach / architecture
+        - Training paradigm / data
+        - When to use
+        - Limitations
+        - Citation (author / year / venue / DOI)
+        - Repository URL
+        - Availability
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: What should it say instead?
+      description: "Give the corrected value(s) as precisely as you can."
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Source / justification
+      description: "A DOI, link, or short reason. For citation fixes, the canonical reference helps a lot."
+
+  - type: checkboxes
+    id: disclosure
+    attributes:
+      label: Disclosure
+      options:
+        - label: "I am an author or co-author of this tool."
+        - label: "The correction above is accurate to the best of my knowledge."
+          required: true

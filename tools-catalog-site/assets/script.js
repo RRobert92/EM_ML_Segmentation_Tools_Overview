@@ -7,7 +7,7 @@
 
   var root = document.body;
   var TOOLS = [];
-  var FILTERS = { category: new Set(), modality: new Set(), type: new Set(), availability: new Set() };
+  var FILTERS = { category: new Set(), task: new Set(), modality: new Set(), type: new Set(), availability: new Set() };
   var SORT = { key: "name", asc: true };
   var SEARCH = "";
 
@@ -43,12 +43,14 @@
 
   function initFilters() {
     var counts = {
-      category: countBy(TOOLS, function (t) { return [t.category]; }),
+      category: countBy(TOOLS, function (t) { return SearchCore.toolCategories(t); }),
+      task: countBy(TOOLS, function (t) { return SearchCore.toolTasks(t); }),
       modality: countBy(TOOLS, function (t) { return t.modalities; }),
       type: countBy(TOOLS, function (t) { return [t.type]; }),
       availability: countBy(TOOLS, function (t) { return [t.availability]; })
     };
     renderChipGroup("#filter-category", counts.category, "category");
+    renderChipGroup("#filter-task", counts.task, "task");
     renderChipGroup("#filter-modality", counts.modality, "modality");
     renderChipGroup("#filter-type", counts.type, "type");
     renderChipGroup("#filter-availability", counts.availability, "availability");
@@ -126,62 +128,17 @@
   // Filtering + search
   // -----------------------------------------------------------------------
 
-  function matches(t) {
-    if (FILTERS.category.size && !FILTERS.category.has(t.category)) return false;
-    if (FILTERS.modality.size) {
-      var mods = t.modalities || [];
-      var anyMatch = false;
-      for (var i = 0; i < mods.length; i++) {
-        if (FILTERS.modality.has(mods[i])) { anyMatch = true; break; }
-      }
-      if (!anyMatch) return false;
-    }
-    if (FILTERS.type.size && !FILTERS.type.has(t.type)) return false;
-    if (FILTERS.availability.size && !FILTERS.availability.has(t.availability)) return false;
-
-    if (SEARCH) {
-      var s = SEARCH.toLowerCase();
-      var parts = [
-        t.name, t.task, t.category, t.when_to_use, t.limitations,
-        t.approach, t.architecture, t.type,
-        (t.aliases || []).join(" "),
-        (t.modalities || []).join(" "),
-        (t.citation && t.citation.surname) || "",
-        (t.citation && t.citation.short) || "",
-        (t.citation && t.citation.venue) || ""
-      ];
-      var hay = parts.join(" ").toLowerCase();
-      if (hay.indexOf(s) === -1) return false;
-    }
-    return true;
-  }
-
-  function getSortValue(t, key) {
-    if (key === "citation.year") return (t.citation && t.citation.year) || 0;
-    if (key === "modalities") return (t.modalities || []).join(", ");
-    return t[key] || "";
-  }
-
-  function sortTools(items) {
-    var k = SORT.key, dir = SORT.asc ? 1 : -1;
-    return items.slice().sort(function (a, b) {
-      var av = getSortValue(a, k);
-      var bv = getSortValue(b, k);
-      av = typeof av === "string" ? av.toLowerCase() : av;
-      bv = typeof bv === "string" ? bv.toLowerCase() : bv;
-      if (av < bv) return -1 * dir;
-      if (av > bv) return 1 * dir;
-      return 0;
-    });
-  }
+  // Filtering, synonym-aware search, and relevance ranking all live in
+  // assets/search-core.js (shared with the Node tests in scripts/test-search.js).
 
   // -----------------------------------------------------------------------
   // Render
   // -----------------------------------------------------------------------
 
   function render() {
-    var filtered = TOOLS.filter(matches);
-    var sorted = sortTools(filtered);
+    var sorted = SearchCore.searchAndRank(TOOLS, {
+      search: SEARCH, filters: FILTERS, sort: SORT
+    });
 
     var rc = q("#results-count");
     if (rc) rc.textContent = sorted.length + " of " + TOOLS.length + " tool" + (sorted.length === 1 ? "" : "s");
@@ -210,8 +167,8 @@
 
       tr.innerHTML =
         '<td><span class="tool-name">' + escapeHtml(t.name) + '</span>' + aliasesStr + '</td>' +
-        '<td>' + escapeHtml(t.category) + '</td>' +
-        '<td>' + escapeHtml(t.task) + '</td>' +
+        '<td>' + escapeHtml(SearchCore.toolCategories(t).join(", ")) + '</td>' +
+        '<td>' + escapeHtml(SearchCore.toolTasks(t).join(", ")) + '</td>' +
         '<td class="modality-list">' + escapeHtml((t.modalities || []).map(prettyValue).join(", ") || "—") + '</td>' +
         '<td><span class="badge ' + escapeHtml(t.type) + '">' + escapeHtml(prettyValue(t.type)) + '</span></td>' +
         '<td><span class="badge ' + escapeHtml(String(t.availability).toLowerCase()) + '">' + escapeHtml(t.availability) + '</span></td>' +
@@ -256,7 +213,7 @@
     if (t.aliases && t.aliases.length) {
       sections.push('<p style="color:var(--text-dim);margin-top:-0.5rem;font-size:0.9rem;">Also known as: ' + escapeHtml(t.aliases.join(", ")) + '</p>');
     }
-    sections.push('<h3>Category</h3><p>' + escapeHtml(t.category) + ' → ' + escapeHtml(t.task) + '</p>');
+    sections.push('<h3>Category</h3><p>' + escapeHtml(SearchCore.toolCategories(t).join(", ")) + ' → ' + escapeHtml(SearchCore.toolTasks(t).join(", ")) + '</p>');
     if (t.modalities && t.modalities.length) {
       sections.push('<h3>Modalities</h3><p>' + escapeHtml((t.modalities || []).map(prettyValue).join(", ")) + '</p>');
     }
@@ -316,7 +273,7 @@
 
   function readURLState() {
     var p = new URLSearchParams(window.location.search);
-    ["category", "modality", "type", "availability"].forEach(function (k) {
+    ["category", "task", "modality", "type", "availability"].forEach(function (k) {
       var v = p.get(k);
       if (v) v.split(",").forEach(function (val) { FILTERS[k].add(val); });
     });

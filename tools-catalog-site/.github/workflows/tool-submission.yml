@@ -1,0 +1,70 @@
+name: Tool submission → PR
+
+# A maintainer reviews each "Add a new tool" issue and, when satisfied, applies
+# the `approved` label. That triggers this workflow: it converts the issue form
+# into a tools.json entry, runs the tests, and opens a PR for a final look.
+# Nothing reaches the live catalog without a human merging the PR.
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  add-tool:
+    # only run for an approved *new-tool* submission
+    if: >
+      github.event.label.name == 'approved' &&
+      contains(github.event.issue.labels.*.name, 'new-tool')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Save issue body
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: printf '%s' "$ISSUE_BODY" > issue_body.txt
+
+      - name: Convert issue → catalog entry
+        run: |
+          python3 scripts/issue_to_tool.py \
+            --body issue_body.txt --apply --issue ${{ github.event.issue.number }}
+
+      - name: Validate JSON + run search tests
+        run: |
+          python3 -c "import json; json.load(open('data/tools.json'))"
+          node scripts/test-search.js
+
+      - name: Open pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BRANCH="tool-submission/issue-${{ github.event.issue.number }}"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add data/tools.json
+          git commit -m "Add tool from issue #${{ github.event.issue.number }}"
+          git push -u origin "$BRANCH"
+          gh pr create \
+            --base main --head "$BRANCH" \
+            --title "Add tool (issue #${{ github.event.issue.number }})" \
+            --body "Generated from #${{ github.event.issue.number }} after maintainer approval.
+          Please verify the citation, tags, and table placement before merging.
+          Closes #${{ github.event.issue.number }}."
+
+      - name: Report failure on the issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body \
+            "⚠️ Automated conversion failed — a required field is probably missing or malformed. A maintainer will follow up manually."

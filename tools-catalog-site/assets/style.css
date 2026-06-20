@@ -313,3 +313,21 @@ dialog#detail-modal::backdrop { background: rgba(20, 30, 50, 0.5); }
   #tools-table th:nth-child(6), #tools-table td:nth-child(6) { display: none; }
   .site-header h1 { font-size: 1.5rem; }
 }
+
+/* Contribute call-to-action buttons */
+.contribute-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.4rem 0 0.8rem; }
+.btn-primary, .btn-secondary {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--link-hover); border-color: var(--link-hover); }
+.btn-secondary { background: transparent; color: var(--accent); }
+.btn-secondary:hover { background: var(--accent-light); }
+.contribute-note { font-size: 0.88rem; color: var(--text-muted); }

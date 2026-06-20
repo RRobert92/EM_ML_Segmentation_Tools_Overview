@@ -2,6 +2,21 @@
 
 All notable changes to the EM Segmentation Tools Open Catalog will be documented in this file. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] — 2026-06-20
+
+### Added
+
+- **Multi-valued `categories` and `tasks`** on every tool, with a controlled task vocabulary. Tools that span stages or targets now surface under every relevant filter instead of being pigeonholed into one. Singular `category`/`task` fields are retained (auto-derived) for display and back-compat.
+- **Task filter** chip group on the site, alongside the existing category/modality/approach/availability filters.
+- **Synonym- and acronym-aware search** with relevance ranking (`assets/search-core.js`): queries like "MT", "microtubule", "cryoET", or "membrane" now resolve to the right tools, and exact name/alias matches rank first. Shared by the site and the Node test suite.
+- **No-git contribution path**: structured GitHub Issue Forms ("Add a new tool" / "Suggest a correction"), a converter (`scripts/issue_to_tool.py`), and a workflow that opens a PR once a maintainer applies the `approved` label.
+- **CI**: `scripts/validate_tools.py` + `.github/workflows/validate.yml` (schema, JS syntax, search tests); `scripts/test-search.js` and `scripts/test-ui.js` test harnesses.
+
+### Fixed
+
+- **TARDIS-EM** was tagged only `Cryo-ET segmentation` and so was invisible under volume-EM / filament / membrane views; it now carries both segmentation categories and filament + membrane tasks across its real modalities.
+- **Mutex Watershed** no longer carries an over-broad `cryo-et` modality tag (it is a vEM/connectomics method).
+
 ## [1.0.1] — 2026-05-19
 
 ### Added

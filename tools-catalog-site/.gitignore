@@ -13,3 +13,4 @@ venv/
 # Logs / scratch
 *.log
 .tmp/
+node_modules/

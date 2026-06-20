@@ -15,7 +15,7 @@ A searchable catalog of 84 actively maintained tools (and growing), each annotat
 The catalog is intended as:
 
 1. **A first-stop reference for working scientists** — search or filter for the task you need, get a shortlist of tools and one-line guidance for each.
-2. **An open community resource** — anyone can submit a new tool or correct an existing entry via pull request.
+2. **An open community resource** — anyone can submit a new tool or correct an existing entry via a structured web form (no git required) or a pull request.
 3. **A data substrate** — the underlying `tools.json` is structured and CC-BY-4.0 licensed, free to use for surveys, training-data preparation, benchmark assembly, or downstream tooling.
 
 ## How to use
@@ -30,12 +30,13 @@ The catalog is in `data/tools.json`. Each entry has the schema described in [CON
 
 ```bash
 # Example: list all open-source ML tools for cryo-ET segmentation
-jq '.tools[] | select(.category == "Cryo-ET segmentation" and .type == "ml" and .availability == "Open") | .name' data/tools.json
+# (categories/tasks are arrays — use `index` so multi-domain tools are included)
+jq '.tools[] | select((.categories | index("Cryo-ET segmentation")) and .type == "ml" and .availability == "Open") | .name' data/tools.json
 ```
 
 ### As a contributor
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). In short: edit `data/tools.json`, open a pull request, and we will review.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Easiest path: click **➕ Add a new tool** on the site (or use the [issue forms](https://github.com/RRobert92/EM_ML_Segmentation_Tools_Overview/issues/new/choose)) — fill in the fields and a maintainer's approval auto-generates the PR. Git users can still edit `data/tools.json` and open a PR directly.
 
 ## Repository layout
 
