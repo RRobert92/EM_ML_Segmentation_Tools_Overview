@@ -1,8 +1,8 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "generated": "2026-06-20",
   "license": "CC-BY-4.0",
-  "tool_count": 84,
+  "tool_count": 87,
   "tools": [
     {
       "name": "3DCT",
@@ -344,11 +344,13 @@
         "Membrane segmentation"
       ],
       "modalities": [
+        "array-tomo",
         "cryo-et",
-        "em",
-        "sstem",
-        "vem",
-        "lm"
+        "fib-sem",
+        "lm",
+        "sbem",
+        "sem",
+        "sstem"
       ],
       "type": "ml",
       "approach": "Two-stage instance segmentation: a transformer-based deep-learning module produces semantic segmentation of filaments and membranes; a downstream geometric model resolves individual instances. Designed to operate dimensionlessly on both 2D micrographs and 3D tomograms.",
@@ -508,14 +510,13 @@
         "Commercial platform"
       ],
       "modalities": [
-        "sbem",
-        "fib-sem",
-        "sstem",
         "array-tomo",
-        "sem",
         "clem",
-        "vem",
-        "lm"
+        "fib-sem",
+        "lm",
+        "sbem",
+        "sem",
+        "sstem"
       ],
       "type": "hybrid",
       "approach": "Commercial GUI-driven platform for 3D/4D biological image analysis. Combines classical segmentation primitives (thresholding, watershed, region growing, manual painting), shallow ML (random forest / pixel classifier modules), and a deep-learning workroom for 2D/3D AI segmentation. Marketed for life sciences as Amira; the same code base ships as Avizo for materials science. Heavily used in volume EM (FIB-SEM, SBEM, ssTEM, array tomography) workflows that require interactive annotation plus quantitative analysis (volumetry, mesh extraction, connectivity, statistics).",
@@ -553,6 +554,7 @@
         "Foundation / general segmentation"
       ],
       "modalities": [
+        "array-tomo",
         "cryo-et",
         "fib-sem",
         "sbem",
@@ -598,9 +600,12 @@
         "Foundation / general segmentation"
       ],
       "modalities": [
+        "array-tomo",
         "clem",
+        "cryo-et",
         "fib-sem",
         "sbem",
+        "sem",
         "sstem"
       ],
       "type": "ml",
@@ -639,9 +644,12 @@
         "Foundation / general segmentation"
       ],
       "modalities": [
+        "array-tomo",
         "clem",
+        "cryo-et",
         "fib-sem",
         "sbem",
+        "sem",
         "sstem"
       ],
       "type": "ml",
@@ -671,13 +679,13 @@
       "name": "DeepEMhancer",
       "raw_name": "DeepEMhancer",
       "aliases": [],
-      "category": "General-purpose",
+      "category": "Post-processing",
       "categories": [
-        "General-purpose"
+        "Post-processing"
       ],
-      "task": "Foundation / general segmentation",
+      "task": "Map sharpening / post-processing",
       "tasks": [
-        "Foundation / general segmentation"
+        "Map sharpening / post-processing"
       ],
       "modalities": [
         "spa",
@@ -719,11 +727,12 @@
         "Foundation / general segmentation"
       ],
       "modalities": [
+        "array-tomo",
+        "clem",
         "cryo-et",
         "fib-sem",
         "sbem",
         "sem",
-        "spa",
         "sstem"
       ],
       "type": "ml",
@@ -762,6 +771,7 @@
         "Foundation / general segmentation"
       ],
       "modalities": [
+        "array-tomo",
         "clem",
         "cryo-et",
         "fib-sem",
@@ -807,7 +817,9 @@
         "Foundation / general segmentation"
       ],
       "modalities": [
+        "array-tomo",
         "clem",
+        "cryo-et",
         "fib-sem",
         "sbem",
         "sem",
@@ -851,6 +863,8 @@
         "Foundation / general segmentation"
       ],
       "modalities": [
+        "array-tomo",
+        "clem",
         "cryo-et",
         "fib-sem",
         "sbem",
@@ -895,6 +909,7 @@
         "Foundation / general segmentation"
       ],
       "modalities": [
+        "array-tomo",
         "clem",
         "cryo-et",
         "fib-sem",
@@ -941,9 +956,10 @@
         "Foundation / general segmentation"
       ],
       "modalities": [
+        "array-tomo",
         "clem",
+        "cryo-et",
         "fib-sem",
-        "ilm",
         "sbem",
         "sem",
         "sstem"
@@ -986,9 +1002,13 @@
         "Foundation / general segmentation"
       ],
       "modalities": [
+        "array-tomo",
         "clem",
+        "cryo-et",
         "fib-sem",
-        "sem"
+        "sbem",
+        "sem",
+        "sstem"
       ],
       "type": "ml",
       "approach": "Per-pixel object probability + radial distances to a star-convex polygon (2D) / polyhedron (3D); NMS-style selection yields instances.",
@@ -1854,7 +1874,6 @@
         "SPA particle picking"
       ],
       "modalities": [
-        "cryo-et",
         "spa"
       ],
       "type": "ml",
@@ -2335,7 +2354,11 @@
       ],
       "modalities": [
         "cryo-et",
-        "spa"
+        "fib-sem",
+        "sbem",
+        "sem",
+        "spa",
+        "sstem"
       ],
       "type": "ml",
       "approach": "Foundational training paradigm: learn to denoise by mapping one noisy realization of a signal to another noisy realization; with zero-mean independent noise the L2-trained network converges toward the clean signal in expectation. Underlies cryo-CARE and Topaz-Denoise.",
@@ -2377,7 +2400,10 @@
       "modalities": [
         "cryo-et",
         "fib-sem",
-        "spa"
+        "sbem",
+        "sem",
+        "spa",
+        "sstem"
       ],
       "type": "ml",
       "approach": "Self-supervised denoising via 'J-invariance': partitions pixels into groups and trains the network to predict each group from the others, so the predicted output is independent of the held-out group. Generalizes N2V and applies to any denoising function (not just CNNs).",
@@ -2421,7 +2447,9 @@
         "cryo-et",
         "fib-sem",
         "sbem",
-        "spa"
+        "sem",
+        "spa",
+        "sstem"
       ],
       "type": "ml",
       "approach": "Blind-spot self-supervised denoising: at each training step a random pixel is masked and the network is trained to predict it from its neighborhood. Eliminates the need for paired data; assumes pixel-independent noise.",
@@ -3040,8 +3068,9 @@
         "Connectomics / neuron tracing"
       ],
       "modalities": [
-        "sstem",
-        "vem"
+        "fib-sem",
+        "sbem",
+        "sstem"
       ],
       "type": "ml",
       "approach": "CNN-based pipeline that predicts post-synaptic sites and their pre-synaptic partner vectors per voxel; trained from sparse point annotations. Simple post-processing yields directed synaptic-partner edges that can be combined with a neuron segmentation into a wiring diagram.",
@@ -3125,8 +3154,7 @@
         "Organelle segmentation"
       ],
       "modalities": [
-        "fib-sem",
-        "vem"
+        "fib-sem"
       ],
       "type": "ml",
       "approach": "Suite of 3D U-Net (and U-Net variants) networks trained on Janelia's COSEM annotated FIB-SEM volumes, segmenting ~30-35 organelle and macromolecular classes (ER, mitochondria, Golgi, MVB, peroxisomes, ribosomes, microtubules, etc.) from 4 nm and 8 nm isotropic FIB-SEM data. Distributed through the OpenOrganelle portal alongside the reference data and the 2024-2025 CellMap Segmentation Challenge.",
@@ -3209,8 +3237,8 @@
         "Organelle segmentation"
       ],
       "modalities": [
-        "clem",
         "fib-sem",
+        "lm",
         "sem"
       ],
       "type": "ml",
@@ -3295,13 +3323,11 @@
       ],
       "type": "infrastructure",
       "modalities": [
-        "spa",
         "cryo-et",
         "fib-sem",
         "sbem",
-        "sstem",
-        "vem",
-        "all microscopy"
+        "spa",
+        "sstem"
       ],
       "stage": "cross-stage",
       "subtask": "raw-data-archive",
@@ -3347,9 +3373,9 @@
       ],
       "type": "infrastructure",
       "modalities": [
-        "spa",
         "cryo-et",
-        "all microscopy"
+        "spa",
+        "sta"
       ],
       "stage": "cross-stage",
       "subtask": "reconstructed-map-archive",
@@ -3406,14 +3432,13 @@
         "Commercial platform"
       ],
       "modalities": [
-        "fib-sem",
-        "sbem",
-        "sstem",
         "array-tomo",
-        "sem",
         "clem",
-        "vem",
-        "lm"
+        "fib-sem",
+        "lm",
+        "sbem",
+        "sem",
+        "sstem"
       ],
       "type": "hybrid",
       "approach": "Commercial GUI-driven platform for 3D/4D bioimage analysis aimed at multi-terabyte volumes. Combines classical segmentation primitives (thresholding, watershed, region growing, manual painting) with a shallow ML pixel classifier and a deep-learning trainer for semantic and instance segmentation. The companion cloud product (arivis Cloud, formerly APEER) provides browser-based deep-learning training and model sharing. Now part of the ZEISS microscopy software ecosystem following the 2023 acquisition.",
@@ -3456,13 +3481,12 @@
         "Commercial platform"
       ],
       "modalities": [
+        "array-tomo",
+        "clem",
         "fib-sem",
         "sbem",
-        "sstem",
-        "array-tomo",
         "sem",
-        "clem",
-        "vem"
+        "sstem"
       ],
       "type": "hybrid",
       "approach": "Commercial GUI-driven 3D image analysis and visualisation platform widely used in volume EM, FIB-SEM, micro-CT and materials science. Combines classical segmentation (thresholding, watershed, region growing, manual painting) with a Deep Learning Tool that exposes U-Net, ResNet and Sensor3D-style architectures through a Segmentation Wizard. Strong large-volume rendering and meshing, with a Python scripting layer for batch processing.",
@@ -3486,6 +3510,142 @@
       "source_type": "vendor",
       "pretrained_weights": "yes",
       "verification_notes": "Vendor software with no canonical peer-reviewed methods paper. Cite via the Comet / ORS product page (https://www.theobjects.com/dragonfly/). Historical lineage: Object Research Systems (ORS, Montreal) → acquired by Comet Group → currently distributed as Dragonfly / Dragonfly Pro. Confirm current product name and licensing tier before chapter submission."
+    },
+    {
+      "name": "Imaris",
+      "raw_name": "Imaris (Oxford Instruments / Andor; formerly Bitplane)",
+      "aliases": [
+        "Bitplane Imaris",
+        "Imaris AI Segmentation",
+        "Imaris Labkit"
+      ],
+      "category": "General-purpose",
+      "categories": [
+        "General-purpose"
+      ],
+      "task": "Commercial platform",
+      "tasks": [
+        "Commercial platform"
+      ],
+      "modalities": [
+        "clem",
+        "fib-sem",
+        "lm",
+        "sbem",
+        "sem"
+      ],
+      "type": "hybrid",
+      "approach": "Commercial GUI platform for 3D/4D visualisation, segmentation, tracking and quantification of microscopy data. Long the standard for fluorescence and volume rendering, it now embeds trainable AI segmentation (from v10.1): the user marks object and background with a few brush strokes and the tool learns a voxel classifier to segment the volume; a machine-learning pixel classifier is also available via the open-source Fiji plug-in Labkit (from v9.9). Strongest on LM and correlative LM-EM rendering and analysis.",
+      "architecture": "Platform with multiple algorithms; the trainable AI segmentation is an interactive learned voxel classifier, with Labkit (random-forest-style) pixel classification bridged from Fiji. Classical primitives (surfaces, spots, Filament Tracer, thresholding) remain core.",
+      "training_paradigm": "Interactive supervised: sparse brush-stroke labels are trained on the user's own data; no shipped EM-specific pretrained weights.",
+      "training_data": "User-supplied brush annotations created in the GUI; no published canonical training set.",
+      "when_to_use": "When a lab needs polished 3D/4D visualisation with interactive segmentation, object tracking and lineage/statistics on a single workstation, especially for fluorescence and correlative LM-EM data.",
+      "limitations": "Closed-source and licence-gated; LM-centric, so EM-specific segmentation lags purpose-built open tools (nnU-Net, MitoNet). The interactive classifier is convenient but is not benchmarked against the cryo-/vEM literature. No peer-reviewed methods paper, so cite the vendor page.",
+      "compute": "Workstation CPU and GPU; designed for single-workstation interactive use on moderate-to-large volumes.",
+      "citation": {
+        "first_author": "",
+        "surname": "",
+        "year": null,
+        "venue": "",
+        "doi": "",
+        "url": "https://imaris.oxinst.com/",
+        "short": "—"
+      },
+      "repo": "",
+      "availability": "Vendor",
+      "source_type": "vendor",
+      "pretrained_weights": "",
+      "verification_notes": "Vendor software, no peer-reviewed methods paper. Oxford Instruments (Andor) product; AI Segmentation introduced in Imaris 10.1, Labkit ML pixel classification since 9.9. Cite https://imaris.oxinst.com/. Verified June 2026."
+    },
+    {
+      "name": "Aivia",
+      "raw_name": "Aivia (Leica Microsystems; formerly DRVision)",
+      "aliases": [
+        "Leica Aivia"
+      ],
+      "category": "General-purpose",
+      "categories": [
+        "General-purpose"
+      ],
+      "task": "Commercial platform",
+      "tasks": [
+        "Commercial platform"
+      ],
+      "modalities": [
+        "clem",
+        "fib-sem",
+        "lm",
+        "sbem",
+        "sem"
+      ],
+      "type": "hybrid",
+      "approach": "Commercial AI image-analysis platform for 2D/3D/4D microscopy, offering deep-learning pixel and instance segmentation, a pretrained model library, cell detection and object tracking. Primarily fluorescence/LM but applicable to EM after retraining. Sold as a subscription (Aivia Go / Elevate / Apex).",
+      "architecture": "Platform; CNN-based deep-learning segmentation models plus classical analysis and tracking. Ships pretrained detectors and a trainer for user data.",
+      "training_paradigm": "Supervised deep learning; ships pretrained models (largely LM) and supports fine-tuning on user annotations.",
+      "training_data": "Vendor-curated pretrained models plus user annotations for fine-tuning; no published canonical training set.",
+      "when_to_use": "When a fluorescence-centric lab wants turnkey deep-learning segmentation, cell detection and tracking with minimal scripting, and is already in the Leica ecosystem.",
+      "limitations": "Closed-source and subscription-licensed; pretrained models are LM-oriented, so EM use needs retraining. No peer-reviewed methods paper. Feature set and plans change with release cadence — confirm the current version.",
+      "compute": "Workstation GPU recommended; availability of cloud/compute options varies by subscription plan.",
+      "citation": {
+        "first_author": "",
+        "surname": "",
+        "year": null,
+        "venue": "",
+        "doi": "",
+        "url": "https://www.leica-microsystems.com/products/microscope-software/p/aivia/",
+        "short": "—"
+      },
+      "repo": "",
+      "availability": "Vendor",
+      "source_type": "vendor",
+      "pretrained_weights": "",
+      "verification_notes": "Vendor software, no peer-reviewed methods paper. Leica Microsystems product (acquired from DRVision, 2021); actively maintained as a subscription (Aivia Go/Elevate/Apex) as of 2025. Cite the Leica product page. Verified June 2026."
+    },
+    {
+      "name": "ZEN Intellesis",
+      "raw_name": "ZEISS ZEN Intellesis",
+      "aliases": [
+        "Intellesis",
+        "ZEISS ZEN Intellesis"
+      ],
+      "category": "General-purpose",
+      "categories": [
+        "General-purpose"
+      ],
+      "task": "Commercial platform",
+      "tasks": [
+        "Commercial platform"
+      ],
+      "modalities": [
+        "clem",
+        "fib-sem",
+        "lm",
+        "sbem",
+        "sem",
+        "sstem"
+      ],
+      "type": "hybrid",
+      "approach": "Machine-learning segmentation module inside ZEISS ZEN software. Combines random-forest-style pixel classification with deep-learning models (Python-powered) for reproducible 2D/3D segmentation by non-experts: the user defines classes, paints a few labels, trains, then batch-segments. Works on any ZEN-readable format and across ZEISS optical, confocal, X-ray, electron and ion microscopes, including FIB-SEM and SBEM.",
+      "architecture": "Engineered-feature pixel classification (random forest) with optional deep-learning models; integrated in ZEN and scriptable via Python.",
+      "training_paradigm": "Interactive supervised: the user labels classes and trains locally; trained models are reusable and shareable.",
+      "training_data": "User-supplied labels; no published canonical training set.",
+      "when_to_use": "When a ZEISS-instrument lab wants on-software, reproducible ML segmentation across modalities (including FIB-SEM/SBEM) without coding — for example batch organelle or material segmentation.",
+      "limitations": "Closed-source and licence-gated to the ZEN ecosystem. Convenient and reproducible but not benchmarked against open vEM segmenters, and the deep-learning component is less flexible than scripted nnU-Net/MitoNet pipelines. No peer-reviewed methods paper.",
+      "compute": "Workstation CPU/GPU; integrated with ZEN.",
+      "citation": {
+        "first_author": "",
+        "surname": "",
+        "year": null,
+        "venue": "",
+        "doi": "",
+        "url": "https://www.zeiss.com/microscopy/en/products/software/zen-intellesis.html",
+        "short": "—"
+      },
+      "repo": "",
+      "availability": "Vendor",
+      "source_type": "vendor",
+      "pretrained_weights": "",
+      "verification_notes": "Vendor software, no peer-reviewed methods paper. ZEISS ZEN module (introduced 2017); pixel classification plus deep learning, works across ZEISS optical/EM/X-ray/ion microscopes. Cite the ZEISS product page. Verified June 2026."
     }
   ]
 }

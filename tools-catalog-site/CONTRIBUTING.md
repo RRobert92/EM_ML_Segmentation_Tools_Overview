@@ -61,7 +61,7 @@ Each tool is an object in `data/tools.json` under the `tools` array. Required fi
   "name": "ToolName *",
   "raw_name": "ToolName (full / canonical name)",
   "aliases": ["AliasOne", "AliasTwo"],
-  "categories": ["Particle picking | Cryo-ET segmentation | Volume EM segmentation | General-purpose | CLEM registration | Preprocessing | Training data & infrastructure *"],
+  "categories": ["Particle picking | Cryo-ET segmentation | Volume EM segmentation | General-purpose | CLEM registration | Preprocessing | Post-processing | Training data & infrastructure *"],
   "tasks": ["SPA particle picking | Cryo-ET particle localization | Membrane segmentation | Filament segmentation | Organelle segmentation | Connectomics / neuron tracing | Foundation / general segmentation | Denoising | Missing-wedge correction | CLEM correlation | CLEM registration | Datasets & infrastructure | Commercial platform *"],
   "category": "(auto-derived: categories[0])",
   "task": "(auto-derived: tasks joined)",

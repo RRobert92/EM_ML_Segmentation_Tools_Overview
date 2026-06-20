@@ -9,10 +9,7 @@ Three threads were **resolved then re-opened** and are live again: the two *(Tab
 - **P2 — Substantive:** clarity and domain judgment (define terms, answer scientific challenges, add content).
 - **P3 — Polish / discretion:** phrasing, style, optional additions, items the authors themselves flagged as maybe-too-much-work.
 
-**Three high-leverage moves that clear many comments at once**
-- [ ] **Add an acronym list** (Gunar #61) → also resolves the "define this" flags for STA, iFLM, GAN-style, SO(3), YOLO, CryoPPP (#13, #15, #17, #20/21, #49, #51).
-- [ ] **Global find/replace `ss` → `ser-sec`** (Müller-Reichert #33, #36 — he calls `ss` "historically forbidden," wants it changed throughout).
-- [ ] **One table-renumbering pass** fixes #26, #65, and the intro-numbering question #6 in a single sweep.
+**Three high-leverage moves clear many comments at once.** Adding an acronym list (Gunar #61) also resolves the "define this" flags for STA, iFLM, GAN-style, SO(3), YOLO, and CryoPPP (#13, #15, #17, #20/21, #49, #51). A global find/replace of `ss` → `ser-sec` settles Müller-Reichert's most insistent note (#33, #36 — he calls `ss` "historically forbidden" and wants it changed throughout). And a single table-renumbering pass fixes #26, #65, and the intro-numbering question #6 in one sweep.
 
 ---
 

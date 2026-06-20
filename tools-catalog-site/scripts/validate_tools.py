@@ -13,7 +13,7 @@ ALLOWED_AVAIL = {"Open", "Vendor", "Commercial", "Academic-only"}
 ALLOWED_MODS = {"spa", "cryo-et", "sta", "fib-sem", "sbem", "sstem", "vem", "sem",
                 "array-tomo", "clem", "cryo-clem", "ilm", "lm", "em", "all microscopy"}
 ALLOWED_CATS = {"Particle picking", "Cryo-ET segmentation", "Volume EM segmentation",
-                "CLEM registration", "Preprocessing", "General-purpose",
+                "CLEM registration", "Preprocessing", "Post-processing", "General-purpose",
                 "Training data & infrastructure"}
 
 def main():

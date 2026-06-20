@@ -37,6 +37,7 @@ body:
         - Volume EM segmentation
         - CLEM registration
         - Preprocessing
+        - Post-processing
         - General-purpose
         - Training data & infrastructure
     validations:

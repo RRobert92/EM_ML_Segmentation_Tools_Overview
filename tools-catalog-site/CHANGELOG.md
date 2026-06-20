@@ -2,6 +2,28 @@
 
 All notable changes to the EM Segmentation Tools Open Catalog will be documented in this file. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] — 2026-06-20
+
+### Added
+
+- Three commercial AI-segmentation platforms flagged as missing in chapter review (comment #2): **Imaris** (Oxford Instruments — trainable AI Segmentation + Labkit ML), **Aivia** (Leica Microsystems — deep-learning segmentation/tracking), and **ZEN Intellesis** (ZEISS — ML segmentation across optical/electron/ion microscopes). All filed under General-purpose → Commercial platform, availability Vendor; vendor facts verified June 2026. Catalog now 87 tools.
+- **Abbreviations glossary** on the site: an expandable legend under the filters explaining every modality acronym (SPA, cryo-ET, STA, FIB-SEM, SBEM, ssTEM, array tomography, vEM, SEM, CLEM, cryo-CLEM, iFLM, LM) and the approach types; filter chips also gain hover tooltips with their full names.
+- **Post-processing category** added to the controlled vocabulary (validator, contribution form, schema docs) for map-enhancement tools that are not segmenters.
+
+### Changed
+
+- **Modality tags normalised for consistency and accuracy** (chapter review follow-up). General/foundation segmenters (Cellpose, Cellpose-SAM, MicroSAM, SAM, SAM 2, Stardist, nnU-Net, Ilastik, DINOv2) now share one modality set so siblings match; the 3D-only 3D U-Net keeps the volume subset. The generic Noise2* denoisers (Noise2Noise, Noise2Self, Noise2Void) are likewise harmonised; cryo-specific denoisers were left unchanged.
+- **Redundant umbrella/catch-all modality tags removed**: `vem` is dropped wherever a specific constituent (FIB-SEM/SBEM/ssTEM/array tomography) is already listed; the generic `em` tag and stray `all microscopy` tags were removed except on genuinely universal platforms (BioImage Model Zoo, ZeroCostDL4Mic). Affected EMPIAR, EMDB, Amira, arivis Pro, Dragonfly, Imaris, ZEN Intellesis, Aivia, Synaptic partner detection, CellMap/OpenOrganelle.
+- **TARDIS-EM** modalities broadened to the full EM imaging set (it is general for any EM data), replacing the catch-all `em`/`vem` tags.
+
+### Fixed
+
+- **DeepEMhancer** was mis-tagged as `General-purpose` → `Foundation / general segmentation`; it is a map-sharpening / post-processing tool and does not segment. Moved to the new **Post-processing** category with a `Map sharpening / post-processing` task.
+- **EMDB** and **EMPIAR** no longer carry a contradictory `all microscopy` tag alongside their specific modalities (EMDB gains `sta`).
+- **PlantSeg** modality `clem` corrected to `lm` (it is a light-microscopy tool, not a correlative one).
+- **EMAN2 NN-picker** no longer carries `cryo-et` (the NN-picker is the SPA boxer; tomogram segmentation is a separate entry).
+- **SAM / SAM 2** inconsistency resolved (stray `ilm` on SAM; mismatched `cryo-et`).
+
 ## [1.1.0] — 2026-06-20
 
 ### Added

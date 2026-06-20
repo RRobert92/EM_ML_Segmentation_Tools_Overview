@@ -80,6 +80,7 @@
       btn.setAttribute("data-filter", filterKey);
       btn.setAttribute("data-value", value);
       btn.innerHTML = escapeHtml(prettyValue(value)) + ' <span class="count">' + n + '</span>';
+      btn.title = fullName(value);
       btn.addEventListener("click", function () { toggleFilter(filterKey, value); });
       container.appendChild(btn);
     });
@@ -94,6 +95,26 @@
       "all microscopy": "all microscopy", "cross-cutting": "cross-cutting"
     };
     return map[v] || v;
+  }
+
+  // Full-text expansion of an abbreviation, used for chip hover tooltips and the
+  // glossary. Modality/approach keys expand; category/task values are already
+  // full phrases and fall back to prettyValue.
+  function fullName(v) {
+    var map = {
+      ml: "Machine learning", classical: "Classical (hand-engineered algorithm)",
+      hybrid: "Hybrid (machine learning + classical)", infrastructure: "Infrastructure / dataset",
+      spa: "Single-particle analysis", "cryo-et": "Cryo-electron tomography",
+      sta: "Sub-tomogram averaging", "fib-sem": "Focused ion beam scanning electron microscopy",
+      sbem: "Serial block-face scanning electron microscopy",
+      sstem: "Serial-section transmission electron microscopy",
+      vem: "Volume electron microscopy", sem: "Scanning electron microscopy",
+      "array-tomo": "Array tomography", clem: "Correlative light and electron microscopy",
+      "cryo-clem": "Cryo correlative light and electron microscopy",
+      ilm: "Integrated fluorescence light microscopy", lm: "Light microscopy",
+      em: "Electron microscopy (general)", "all microscopy": "All microscopy modalities"
+    };
+    return map[v] || prettyValue(v);
   }
 
   function toggleFilter(key, value) {
