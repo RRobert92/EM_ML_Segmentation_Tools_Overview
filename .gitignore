@@ -1,5 +1,15 @@
-chapter-draft-pipeline-version.md
-skills/.DS_Store
+# --- Private manuscript & research material — NOT part of the public catalog ---
+# Kept locally only; excluded from the EM_ML_Segmentation_Tools_Overview repo.
+# The public repo should contain only the tool catalog (tools-catalog-site/) and its CI.
+/*.docx
+/chapter-*.md
+/comment-resolution-plan.md
+/figure-*.png
+/knowledge-base/
+/skills/
 
 # Local-only scratch workspace
-scratch-workspace/
+/scratch-workspace/
+
+# macOS
+.DS_Store
