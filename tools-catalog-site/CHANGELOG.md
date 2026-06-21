@@ -2,6 +2,14 @@
 
 All notable changes to the EM Segmentation Tools Open Catalog will be documented in this file. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] — 2026-06-21
+
+### Added
+
+- Three recent foundation models (chapter review follow-up), filed under General-purpose → Foundation / general segmentation with the shared foundation-segmenter modality set:
+  - **SAM 3** (Carion et al., Meta, 2025; arXiv 2511.16719) — adds promptable concept segmentation (text noun-phrase + image-exemplar prompts) over SAM 2's interactive masks; the March 2026 **SAM 3.1** point-release (faster real-time video) is captured as an alias/note rather than a separate entry. Honest EM caveat recorded: open-vocabulary text prompts do not cover EM-specific structures, so zero-shot prompting on (cryo-)EM is unreliable; custom SAM License with gated checkpoints.
+  - **DINOv3** (Siméoni et al., Meta, 2025; arXiv 2508.10104) — self-supervised ViT successor to DINOv2 (LVD-1689M, up to ~7B params, "Gram anchoring") used as a frozen dense-feature backbone; custom DINOv3 License (gated). Catalog now 89 tools.
+
 ## [1.2.0] — 2026-06-20
 
 ### Added

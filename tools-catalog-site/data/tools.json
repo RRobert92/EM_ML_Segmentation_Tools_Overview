@@ -1,8 +1,8 @@
 {
-  "version": "1.2.0",
-  "generated": "2026-06-20",
+  "version": "1.2.1",
+  "generated": "2026-06-21",
   "license": "CC-BY-4.0",
-  "tool_count": 87,
+  "tool_count": 89,
   "tools": [
     {
       "name": "3DCT",
@@ -3646,6 +3646,99 @@
       "source_type": "vendor",
       "pretrained_weights": "",
       "verification_notes": "Vendor software, no peer-reviewed methods paper. ZEISS ZEN module (introduced 2017); pixel classification plus deep learning, works across ZEISS optical/EM/X-ray/ion microscopes. Cite the ZEISS product page. Verified June 2026."
+    },
+    {
+      "name": "SAM 3",
+      "raw_name": "SAM 3 (Segment Anything Model 3)",
+      "aliases": [
+        "Segment Anything 3",
+        "SAM 3.1"
+      ],
+      "category": "General-purpose",
+      "categories": [
+        "General-purpose"
+      ],
+      "task": "Foundation / general segmentation",
+      "tasks": [
+        "Foundation / general segmentation"
+      ],
+      "modalities": [
+        "array-tomo",
+        "clem",
+        "cryo-et",
+        "fib-sem",
+        "sbem",
+        "sem",
+        "sstem"
+      ],
+      "type": "ml",
+      "approach": "Successor to SAM 2 adding promptable concept segmentation (PCS): detects, segments and tracks every instance matching a short text noun-phrase and/or an image exemplar, across images and video (z-stacks/volumes). An image-level detector and a SAM 2-style memory-based tracker share one backbone; a decoupled 'presence' head separates recognition from localisation. The March 2026 SAM 3.1 point-release adds multiplexing and global reasoning for faster real-time inference.",
+      "architecture": "Shared vision backbone + DETR-style concept detector with a presence token/head + streaming memory tracker and mask decoder",
+      "training_paradigm": "supervised (large-scale SA-Co data engine)",
+      "training_data": "SA-Co: ~4M unique open-vocabulary concepts with hard negatives across images and video (model-and-human data engine)",
+      "when_to_use": "When interactive or exemplar-prompted segmentation across z-slices speeds annotation; useful as a stronger SAM 2 for volumetric EM, but EM-specific structures need exemplars or fine-tuning rather than zero-shot text prompts.",
+      "limitations": "Trained on natural images/video: its open-vocabulary text prompts do not cover EM-specific structures, so zero-shot 'mitochondrion'/'ribosome' prompts on (cryo-)EM are unreliable. Like SAM 2, volume propagation can drift; domain fine-tuning strongly improves quality. Custom 'SAM License' (not Apache); checkpoints are gated.",
+      "compute": "Single GPU for inference; larger backbones benefit from high-memory GPUs",
+      "citation": {
+        "first_author": "Carion, Nicolas",
+        "surname": "Carion",
+        "year": 2025,
+        "venue": "arXiv 2511.16719",
+        "doi": "",
+        "url": "https://arxiv.org/abs/2511.16719",
+        "short": "Carion 2025"
+      },
+      "repo": "https://github.com/facebookresearch/sam3",
+      "availability": "Open",
+      "license": "SAM License (Meta, custom; checkpoints gated on Hugging Face)",
+      "source_type": "preprint",
+      "pretrained_weights": "yes",
+      "verification_notes": "arXiv 2511.16719 (Carion et al., Meta, Nov 2025); released 19 Nov 2025. ICLR 2026 / OpenReview r35clVtGzw — confirm final acceptance before citing as conference-published. SAM 3.1 checkpoints released 27 Mar 2026. Searched 2026-06-21."
+    },
+    {
+      "name": "DINOv3",
+      "raw_name": "DINOv3",
+      "aliases": [],
+      "category": "General-purpose",
+      "categories": [
+        "General-purpose"
+      ],
+      "task": "Foundation / general segmentation",
+      "tasks": [
+        "Foundation / general segmentation"
+      ],
+      "modalities": [
+        "array-tomo",
+        "clem",
+        "cryo-et",
+        "fib-sem",
+        "sbem",
+        "sem",
+        "sstem"
+      ],
+      "type": "ml",
+      "approach": "Self-supervised ViT successor to DINOv2, scaled to ~1.7B curated images and up to ~7B parameters. Introduces 'Gram anchoring' to stop dense feature maps from degrading over long training, giving strong frozen dense features for segmentation, depth and tracking without fine-tuning.",
+      "architecture": "ViT (up to ~7B params) trained by teacher-student self-distillation; Gram-anchoring regulariser; post-hoc resolution/size flexibility",
+      "training_paradigm": "self_supervised_masked + self_supervised_contrastive",
+      "training_data": "LVD-1689M (~1.7B curated web images)",
+      "when_to_use": "As a stronger frozen backbone than DINOv2 for downstream EM tasks (linear probing, kNN, dense feature extraction) where labelled data is scarce.",
+      "limitations": "Pretrained on natural images; EM transfer is task-dependent and domain-pretrained backbones (CEM500K-derived) can still win. Largest variants are heavy to run; dense-feature quality on (cryo-)EM is not community-benchmarked. Custom DINOv3 License (not Apache); gated download with terms.",
+      "compute": "Single GPU for small/distilled variants; multi-GPU for the largest backbones",
+      "citation": {
+        "first_author": "Siméoni, Oriane",
+        "surname": "Siméoni",
+        "year": 2025,
+        "venue": "arXiv 2508.10104",
+        "doi": "",
+        "url": "https://arxiv.org/abs/2508.10104",
+        "short": "Siméoni 2025"
+      },
+      "repo": "https://github.com/facebookresearch/dinov3",
+      "availability": "Open",
+      "license": "DINOv3 License (Meta, custom; commercial use under terms; gated download)",
+      "source_type": "preprint",
+      "pretrained_weights": "yes",
+      "verification_notes": "arXiv 2508.10104 (Siméoni et al., Meta, 13 Aug 2025). Repo facebookresearch/dinov3; weights e.g. facebook/dinov3-vitb16-pretrain-lvd1689m. Searched 2026-06-21."
     }
   ]
 }
