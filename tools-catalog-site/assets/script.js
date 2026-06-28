@@ -89,7 +89,7 @@
   function prettyValue(v) {
     var map = {
       ml: "ML", classical: "Classical", hybrid: "Hybrid", infrastructure: "Infrastructure",
-      spa: "SPA", "cryo-et": "cryo-ET", "fib-sem": "FIB-SEM", sbem: "SBEM", sstem: "ssTEM",
+      spa: "SPA", "cryo-et": "cryo-ET", "fib-sem": "FIB-SEM", sbem: "SBEM", sertem: "serTEM",
       vem: "vEM", em: "EM", clem: "CLEM", "cryo-clem": "cryo-CLEM", "cryo-fib": "cryo-FIB",
       "array-tomo": "array tomo", sem: "SEM", sta: "STA", ilm: "iFLM", lm: "LM",
       "all microscopy": "all microscopy", "cross-cutting": "cross-cutting"
@@ -107,7 +107,7 @@
       spa: "Single-particle analysis", "cryo-et": "Cryo-electron tomography",
       sta: "Sub-tomogram averaging", "fib-sem": "Focused ion beam scanning electron microscopy",
       sbem: "Serial block-face scanning electron microscopy",
-      sstem: "Serial-section transmission electron microscopy",
+      sertem: "Serial-section transmission electron microscopy",
       vem: "Volume electron microscopy", sem: "Scanning electron microscopy",
       "array-tomo": "Array tomography", clem: "Correlative light and electron microscopy",
       "cryo-clem": "Cryo correlative light and electron microscopy",

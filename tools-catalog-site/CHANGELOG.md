@@ -2,6 +2,12 @@
 
 All notable changes to the EM Segmentation Tools Open Catalog will be documented in this file. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2] — 2026-06-28
+
+### Changed
+
+- **Modality nomenclature: `ssTEM` → `serTEM`.** Renamed the serial-section TEM modality throughout the catalog to avoid the bare "ss" abbreviation. This touches the display label and glossary, the internal modality key (`sstem` → `sertem`) across all `data/tools.json` entries, the search synonym set (`assets/search-core.js`), the `ALLOWED_MODS` validator, the issue→tool mapping (`scripts/issue_to_tool.py`), and the "Add a new tool" issue template. Bookmarked URLs using `?modality=sstem` no longer resolve — use `?modality=sertem`.
+
 ## [1.2.1] — 2026-06-21
 
 ### Added

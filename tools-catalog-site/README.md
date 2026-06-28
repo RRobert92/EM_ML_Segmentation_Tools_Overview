@@ -1,6 +1,6 @@
 # EM Segmentation Tools — Open Catalog
 
-An open, community-maintained catalog of AI/ML and classical tools for **segmentation across electron microscopy**: single-particle analysis (SPA), cryo-electron tomography (cryo-ET), volume EM (FIB-SEM, SBEM, ssTEM, array tomography), and correlative light–electron microscopy (CLEM).
+An open, community-maintained catalog of AI/ML and classical tools for **segmentation across electron microscopy**: single-particle analysis (SPA), cryo-electron tomography (cryo-ET), volume EM (FIB-SEM, SBEM, serTEM, array tomography), and correlative light–electron microscopy (CLEM).
 
 **Live site:** [https://USERNAME.github.io/em-segmentation-tools/](https://USERNAME.github.io/em-segmentation-tools/) *(update with your GitHub user/org once published)*
 

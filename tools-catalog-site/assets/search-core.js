@@ -23,7 +23,7 @@
     ["cryoet", "cryo-et", "cryo et", "tomography", "tomogram", "tomograms",
       "tomographic", "subtomogram", "sta", "subtomogram averaging"],
     ["vem", "volume em", "volumeem", "fibsem", "fib-sem", "fib sem", "sbem",
-      "sstem", "serial section", "serial-section", "block face", "block-face", "array tomography"],
+      "sertem", "serial section", "serial-section", "block face", "block-face", "array tomography"],
     ["connectomics", "connectome", "neuron", "neurons", "neurite", "synapse",
       "synaptic", "axon", "neuron tracing", "tracing"],
     ["denoise", "denoising", "denoised", "noise", "noise2noise", "noise2void", "low snr", "snr"],

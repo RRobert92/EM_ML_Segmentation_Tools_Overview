@@ -43,7 +43,7 @@ TASK_OVERRIDES = {
 # --- per-tool category additions (tools that genuinely span stages) ---
 CATEGORY_OVERRIDES = {
     # TARDIS does filament/membrane segmentation in BOTH cellular cryo-ET and
-    # 2D/volume EM (its own modalities list cryo-et, em, ssTEM, vEM, LM).
+    # 2D/volume EM (its own modalities list cryo-et, em, serTEM, vEM, LM).
     "TARDIS-EM": ["Cryo-ET segmentation", "Volume EM segmentation"],
 }
 
@@ -51,7 +51,7 @@ CATEGORY_OVERRIDES = {
 MODALITY_FIXES = {
     # Mutex Watershed is a vEM/connectomics graph-partitioning method; cryo-ET
     # was an over-broad tag. Drop it.
-    "Mutex Watershed": ["fib-sem", "sbem", "sstem"],
+    "Mutex Watershed": ["fib-sem", "sbem", "sertem"],
 }
 
 def main():

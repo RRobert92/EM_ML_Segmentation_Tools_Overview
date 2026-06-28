@@ -10,7 +10,7 @@ REQUIRED = ["name", "categories", "tasks", "modalities", "type", "approach",
 # `repo` is required except for closed/commercial vendor tools that have none.
 ALLOWED_TYPE = {"ml", "classical", "hybrid", "infrastructure"}
 ALLOWED_AVAIL = {"Open", "Vendor", "Commercial", "Academic-only"}
-ALLOWED_MODS = {"spa", "cryo-et", "sta", "fib-sem", "sbem", "sstem", "vem", "sem",
+ALLOWED_MODS = {"spa", "cryo-et", "sta", "fib-sem", "sbem", "sertem", "vem", "sem",
                 "array-tomo", "clem", "cryo-clem", "ilm", "lm", "em", "all microscopy"}
 ALLOWED_CATS = {"Particle picking", "Cryo-ET segmentation", "Volume EM segmentation",
                 "CLEM registration", "Preprocessing", "Post-processing", "General-purpose",

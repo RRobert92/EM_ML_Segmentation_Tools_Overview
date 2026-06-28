@@ -65,7 +65,7 @@ Each tool is an object in `data/tools.json` under the `tools` array. Required fi
   "tasks": ["SPA particle picking | Cryo-ET particle localization | Membrane segmentation | Filament segmentation | Organelle segmentation | Connectomics / neuron tracing | Foundation / general segmentation | Denoising | Missing-wedge correction | CLEM correlation | CLEM registration | Datasets & infrastructure | Commercial platform *"],
   "category": "(auto-derived: categories[0])",
   "task": "(auto-derived: tasks joined)",
-  "modalities": ["spa", "cryo-et", "sta", "fib-sem", "sbem", "sstem", "vem", "sem", "array-tomo", "clem", "cryo-clem", "ilm", "lm", "em", "all microscopy"],
+  "modalities": ["spa", "cryo-et", "sta", "fib-sem", "sbem", "sertem", "vem", "sem", "array-tomo", "clem", "cryo-clem", "ilm", "lm", "em", "all microscopy"],
   "type": "ml | classical | hybrid | infrastructure *",
   "approach": "Two- to three-sentence description of the algorithm",
   "architecture": "Network architecture or algorithmic kernel",

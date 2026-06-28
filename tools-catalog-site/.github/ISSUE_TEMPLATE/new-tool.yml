@@ -78,7 +78,7 @@ body:
         - STA
         - FIB-SEM
         - SBEM
-        - ssTEM
+        - serTEM
         - vEM
         - SEM
         - array tomography

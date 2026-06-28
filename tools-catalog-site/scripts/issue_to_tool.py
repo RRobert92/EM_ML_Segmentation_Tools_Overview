@@ -46,7 +46,7 @@ LABEL_MAP = {
 
 MODALITY_CODE = {
     "SPA": "spa", "cryo-ET": "cryo-et", "STA": "sta", "FIB-SEM": "fib-sem",
-    "SBEM": "sbem", "ssTEM": "sstem", "vEM": "vem", "SEM": "sem",
+    "SBEM": "sbem", "serTEM": "sertem", "vEM": "vem", "SEM": "sem",
     "array tomography": "array-tomo", "CLEM": "clem", "cryo-CLEM": "cryo-clem",
     "iFLM": "ilm", "LM": "lm", "EM (general)": "em", "all microscopy": "all microscopy",
 }
